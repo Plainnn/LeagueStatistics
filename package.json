@@ -4,19 +4,24 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --recursive --exit"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
+    "expect.js": "^0.3.1",
     "express": "^4.17.1",
     "express-handlebars": "^3.1.0",
     "express-rate-limit": "^5.0.0",
     "handlebars": "^4.5.3",
     "kayn": "^0.10.2",
     "leagueapiwrapper": "^1.1.0",
-    "node-simple-timer": "^0.1.1"
+    "mocha": "^6.2.2",
+    "node-simple-timer": "^0.1.1",
+    "supertest": "^4.0.2"
   }
 }

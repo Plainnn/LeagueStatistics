@@ -8,31 +8,28 @@
       ></v-progress-circular>
     </div>
     <div v-if="error">
-      <h1>{{ error }}</h1>
+      <h1>An error has occoured</h1>
+      {{ error }}
       <router-link to="/">Try Again</router-link>
     </div>
-    <div v-else>
-      <div class="userMostLoss">
-        <div class="row">
-          <div class="col-sm-9 sum-name">
-            <div class="align">
-              <h1>
-                {{ profileData.data.mostLosses.champ }}
-              </h1>
-            </div>
-            <h2 class="champStats">Is Your Worst Champion</h2>
-            <hr />
-            <h5 class="champStats">
-              {{
-                `You have won ${profileData.data.mostLosses.loss} of your last 20 Games`
-              }}
-            </h5>
+    <div class="userMostLoss" v-if="profileData">
+      <div class="row">
+        <div class="col-sm-9 sum-name">
+          <div class="align">
+            <h1>{{ profileData.data.mostLosses.champ }}</h1>
           </div>
-          <div v-if="profileData" class="col-sm-3 sum-rank">
-            <h1 style="text-align:left">Loss</h1>
-          </div>
+          <h2 class="champStats">Is Your Worst Champion</h2>
+          <hr />
+          <h5 class="champStats">
+            {{
+              `You have lost ${profileData.data.mostLosses.losses} of your last 20 Games`
+            }}
+          </h5>
         </div>
-        <hr />
+
+        <div class="col-sm-3 sum-rank">
+          <h1 style="text-align:right">image</h1>
+        </div>
       </div>
     </div>
   </section>
@@ -60,7 +57,8 @@ export default {
       this.profileData = res;
       this.loading = false;
     } catch (error) {
-      this.error = true;
+      this.error = error;
+      this.loading = false;
     }
   }
 };
@@ -87,7 +85,7 @@ hr.alt {
   flex-grow: 1;
 }
 
-.userMostLossContainer {
+.userMostLossontainer {
   margin-top: 50px;
 }
 

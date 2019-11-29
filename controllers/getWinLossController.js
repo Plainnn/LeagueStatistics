@@ -62,6 +62,7 @@ exports.getWinLoss = async (req, res) => {
       const championIdMap = await kayn.DDragon.Champion.listDataByIdWithParentAsId();
       const { id, accountId } = await kayn.Summoner.by.name(req.params.name);
       userData.userName = req.params.name;
+      console.log(`User Found: ${userData.userName}`);
       const { matches } = await kayn.Matchlist.by
         .accountID(accountId)
         .query({ queue: 420 });
@@ -70,7 +71,9 @@ exports.getWinLoss = async (req, res) => {
       // `processor` is a helper function to make the subsequent `map` cleaner.
       const processor = match => processMatch(championIdMap, id, match);
       const results = await Promise.all(matchDtos.map(processor));
+
       let data = [];
+
       const groupBy = (xs, key) => {
         return xs.reduce((rv, x) => {
           (rv[x[key]] = rv[x[key]] || []).push(x);
@@ -110,11 +113,17 @@ exports.getWinLoss = async (req, res) => {
         mostWins,
         mostLosses
       });
+      
     } catch (error) {
-      console.log(error);
-      res.status(400).json({
-        error
-      });
+      if (error.error.name == 'StatusCodeError') {
+        res.status(400).json({
+          error: 'Please update your API key'
+        });
+      } else {
+        res.status(400).json({
+          error
+        });
+      }
     }
   };
 

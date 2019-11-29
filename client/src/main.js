@@ -12,5 +12,6 @@ Vue.prototype.$http.defaults.baseURL = 'http://localhost:3000/';
 new Vue({
   router,
   vuetify,
+
   render: h => h(App)
 }).$mount('#app');

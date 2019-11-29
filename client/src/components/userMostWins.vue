@@ -8,7 +8,8 @@
       ></v-progress-circular>
     </div>
     <div v-if="error">
-      <h1>{{ error }}</h1>
+      <h1>An error has occoured</h1>
+      {{ error }}
       <router-link to="/">Try Again</router-link>
     </div>
     <div v-else>
@@ -19,9 +20,7 @@
           </div>
           <div v-if="profileData" class="col-sm-9 sum-rank">
             <div class="align">
-              <h1>
-                {{ profileData.data.mostWins.champ }}
-              </h1>
+              <h1>{{ profileData.data.mostWins.champ }}</h1>
             </div>
             <h2 class="champStats">Is Your Best Champion</h2>
             <hr class="alt" />
@@ -32,7 +31,6 @@
             </h5>
           </div>
         </div>
-        <hr />
       </div>
     </div>
   </section>
@@ -60,7 +58,8 @@ export default {
       this.profileData = res;
       this.loading = false;
     } catch (error) {
-      this.error = true;
+      this.error = error;
+      this.loading = false;
     }
   }
 };

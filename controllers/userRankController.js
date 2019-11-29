@@ -31,13 +31,15 @@ exports.getRank = async (req, res) => {
 
   const efficiently = async kayn => {
     try {
-      const summoner = await kayn.Summoner.by.name(req.params.name);
+      const summoner = await kayn.Summoner.by
+        .name(req.params.name)
+        .region(REGIONS.EUROPE_WEST);
+
       const rankedData = await kayn.League.Entries.by.summonerID(summoner.id);
       const leagueData = await kayn.League.by.uuid(rankedData[0].leagueId);
       const newRankedData = await rankedData.filter(
         d => d.queueType === 'RANKED_SOLO_5x5'
       );
-
       const data = {
         summonerName: summoner.name,
         summmonerTier: newRankedData[0].tier,
@@ -47,11 +49,11 @@ exports.getRank = async (req, res) => {
         summonerLp: newRankedData[0].leaguePoints,
         summonerLeagueName: leagueData.name
       };
+
       res.json({
         data
       });
     } catch (error) {
-      console.log(error);
       res.status(400).json({
         error
       });

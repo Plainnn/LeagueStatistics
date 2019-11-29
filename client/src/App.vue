@@ -67,7 +67,7 @@ h3,
 h4,
 h5 {
   font-family: 'Lora', serif;
-  font-weight: 700;
+  font-weight: 700 !important;
 }
 
 h1 {

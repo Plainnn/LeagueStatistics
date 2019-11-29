@@ -23,3 +23,5 @@ app.listen(port, () => {
 });
 
 console.log(process.env.API_KEY);
+
+module.exports = app;
