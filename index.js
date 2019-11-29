@@ -2,7 +2,6 @@ const express = require('express');
 const userRouter = require('./routes/searchRoutes');
 const cors = require('cors');
 const dotenv = require('dotenv');
-let leagueAPIKey = 'RGAPI-d80630f9-3643-49da-9e2a-917a4c235dd2';
 dotenv.config({ path: './config.env' });
 
 const { Kayn, REGIONS, DDragon, Summoner } = require('kayn');
