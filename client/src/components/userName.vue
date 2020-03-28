@@ -1,24 +1,25 @@
 <template>
   <section class="userNameContainer">
     <div v-if="loading" class="loading-search text-center">
-      <v-progress-circular
-        :size="100"
-        color="primary"
-        indeterminate
-      ></v-progress-circular>
+      <v-progress-circular :size="100" color="primary" indeterminate></v-progress-circular>
     </div>
     <div v-if="error">
       <h1>{{ error }}</h1>
       <router-link to="/">Try Again</router-link>
     </div>
-    <div v-else>
+    <div v-else-if="this.data">
+      <div class="rank text-center" v-if="userImage" data-aos="fade-down" data-aos-delay="1000">
+        <img
+          :src="require(`./img/${this.summmonerTier.toLowerCase()}_${this.summmonerRank.toLowerCase()}.png`)"
+        />
+      </div>
       <div class="userName">
         <div class="row">
-          <div class="col-sm-3 sum-name">
-            <h1 style="width:110%;">{{ summonerName }}</h1>
-            <h2>{{ summonerLeagueName }}</h2>
+          <div class="col-sm-12 sum-name text-center">
+            <h1 data-aos="fade-down" data-aos-delay="1300">{{ summonerName }}</h1>
+            <h2 data-aos="fade-down" data-aos-delay="1500">{{ summonerLeagueName }}</h2>
           </div>
-          <div class="col-sm-9 sum-rank">
+          <div class="col-sm-12 sum-rank text-center">
             <h2>{{ `${summmonerTier} ${summmonerRank}` }}</h2>
             <h2>{{ `${summonerLp} LP` }}</h2>
           </div>
@@ -27,12 +28,7 @@
         <div class="row">
           <div class="sol-sm-6 sumWinPercent">
             <div class="iCountUp">
-              <ICountUp
-                :delay="delay"
-                :endVal="endVal"
-                :options="options"
-                @ready="onReady"
-              />
+              <ICountUp :delay="delay" :endVal="endVal" :options="options" @ready="onReady" />
             </div>
             <h1 id="winPercent"></h1>
           </div>
@@ -68,6 +64,8 @@ export default {
       summonerLosses: null,
       summonerLp: null,
       summonerLeagueName: null,
+      data: null,
+      imgUrl: null,
       delay: 1000,
       endVal: 0,
       options: {
@@ -80,13 +78,22 @@ export default {
       }
     };
   },
-  async created() {
+  computed: {
+    userImage() {
+      return this.summmonerTier
+        ? require(`./img/${this.summmonerTier.toLowerCase()}_${this.summmonerRank.toLowerCase()}.png`)
+        : '';
+    }
+  },
+  async mounted() {
+    /*eslint-disable */
+
     try {
       this.loading = true;
       const res = await axios.get(
         `/api/v1/getrank/${this.$route.params.platform}/${this.$route.params.name}`
       );
-
+      this.data = res;
       this.summonerName = res.data.data.summonerName;
       this.summmonerTier = res.data.data.summmonerTier;
       this.summmonerRank = res.data.data.summmonerRank;
@@ -99,6 +106,8 @@ export default {
           (parseFloat(res.data.data.summonerLosses) +
             parseFloat(res.data.data.summonerWins))) *
         100;
+
+      this.imgUrl = `.../img/${this.summmonerTier.toLowerCase()}_${this.summmonerRank.toLowerCase()}.png`;
     } catch (error) {
       this.loading = false;
       this.error = true;
@@ -126,7 +135,10 @@ export default {
   font-weight: 400;
   color: #ffd046;
   margin: 0em 0em 0em 0em;
-
   filter: drop-shadow(0px 3px 1px #000);
+}
+
+.rank img {
+  width: 20%;
 }
 </style>

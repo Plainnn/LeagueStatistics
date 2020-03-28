@@ -25,12 +25,8 @@ const kayn = Kayn(process.env.API_KEY)({
     timeToLives: {
       useDefault: true,
       byGroup: {
-        DDRAGON: 1000 * 60 * 60 * 24 * 30 // cache for a month
-      },
-      byMethod: {
-        [METHOD_NAMES.SUMMONER.GET_BY_SUMMONER_NAME]: 1000 * 60 * 60 * 0.1, // ms
-        [METHOD_NAMES.MATCH.GET_MATCHLIST]: 5000, // ms
-        [METHOD_NAMES.MATCH.GET_MATCH_TIMELINE]: 10000 // ms
+        DDRAGON: 1000 * 60 * 60 * 24 * 30,
+        SUMMONER: 100000
       }
     }
   }
@@ -47,13 +43,16 @@ exports.getWinLoss = async (req, res) => {
       p => p.participantId === participantId
     );
     const champion = championIdMap.data[participant.championId];
+
     return {
       gameCreation: match.gameCreation,
       seasonId: match.seasonId,
       didWin:
         participant.teamId ===
         match.teams.find(({ win }) => win === 'Win').teamId,
-      championName: champion.name
+      championName: champion.name,
+      championId: champion.id,
+      championKey: champion.key
     };
   };
 
@@ -61,16 +60,39 @@ exports.getWinLoss = async (req, res) => {
     try {
       const championIdMap = await kayn.DDragon.Champion.listDataByIdWithParentAsId();
       const { id, accountId } = await kayn.Summoner.by.name(req.params.name);
-      userData.userName = req.params.name;
-      console.log(`User Found: ${userData.userName}`);
       const { matches } = await kayn.Matchlist.by
         .accountID(accountId)
         .query({ queue: 420 });
-      const gameIds = matches.slice(0, 20).map(({ gameId }) => gameId);
+      const gameIds = matches.slice(0, 10).map(({ gameId }) => gameId);
       const matchDtos = await Promise.all(gameIds.map(kayn.Match.get));
       // `processor` is a helper function to make the subsequent `map` cleaner.
       const processor = match => processMatch(championIdMap, id, match);
       const results = await Promise.all(matchDtos.map(processor));
+
+      const winRate = results.reduce((acc, cur) => {
+        let champion = cur['championName'];
+        let won = cur['didWin'] === true;
+        let id = cur['championId'];
+        let key = cur['championKey'];
+        if (!acc[champion]) {
+          acc[champion] = {
+            championName: champion,
+            id: id,
+            key,
+            won: won ? 1 : 0,
+            lost: won ? 0 : 1,
+            rate: won ? 1 : 0
+          };
+        } else {
+          acc[champion].won += won ? 1 : 0;
+          acc[champion].lost += won ? 0 : 1;
+          acc[champion].rate =
+            (acc[champion].won + 1) /
+            (acc[champion].won + 1 + acc[champion].lost);
+        }
+
+        return acc;
+      }, {});
 
       let data = [];
 
@@ -111,19 +133,13 @@ exports.getWinLoss = async (req, res) => {
 
       res.json({
         mostWins,
-        mostLosses
+        mostLosses,
+        winRate
       });
-      
     } catch (error) {
-      if (error.error.name == 'StatusCodeError') {
-        res.status(400).json({
-          error: 'Please update your API key'
-        });
-      } else {
-        res.status(400).json({
-          error
-        });
-      }
+      res.status(400).json({
+        error
+      });
     }
   };
 

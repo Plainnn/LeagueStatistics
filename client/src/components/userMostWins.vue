@@ -1,11 +1,7 @@
 <template>
   <section class="userMostWinContainer">
     <div v-if="loading" class="loading-search text-center">
-      <v-progress-circular
-        :size="100"
-        color="primary"
-        indeterminate
-      ></v-progress-circular>
+      <v-progress-circular :size="100" color="primary" indeterminate></v-progress-circular>
     </div>
     <div v-if="error">
       <h1>An error has occoured</h1>
@@ -18,15 +14,15 @@
           <div class="col-sm-3 sum-name">
             <h1 style="text-align:left">image</h1>
           </div>
-          <div v-if="profileData" class="col-sm-9 sum-rank">
+          <div v-if="data" class="col-sm-9 sum-rank">
             <div class="align">
-              <h1>{{ profileData.data.mostWins.champ }}</h1>
+              <h1>{{ data.data.mostWins.champ }}</h1>
             </div>
             <h2 class="champStats">Is Your Best Champion</h2>
             <hr class="alt" />
             <h5 class="champStats">
               {{
-                `You have won ${profileData.data.mostWins.wins} of your last 20 Games`
+              `You have won ${data.data.mostWins.wins} of your last 20 Games`
               }}
             </h5>
           </div>
@@ -37,10 +33,9 @@
 </template>
 
 <script>
-const axios = require('axios');
-
 export default {
   name: 'userMostWins',
+  props: ['data'],
   data() {
     return {
       loading: false,
@@ -52,10 +47,6 @@ export default {
   async created() {
     this.loading = true;
     try {
-      const res = await axios.get(
-        `/api/v1/${this.$route.params.platform}/${this.$route.params.name}`
-      );
-      this.profileData = res;
       this.loading = false;
     } catch (error) {
       this.error = error;

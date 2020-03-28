@@ -22,12 +22,19 @@
       </div>
 
       <v-spacer></v-spacer>
+      <router-link to="/" class="white">Home</router-link>
+      <router-link to="/profile" class="white">Profile</router-link>
+      <!-- Check that the SDK client is not currently loading before accessing is methods -->
+      <div v-if="!$auth.loading">
+        <!-- show login when not authenticated -->
+        <button v-if="!$auth.isAuthenticated" @click="login">Log in</button>
+        <!-- show logout when authenticated -->
+        <button v-if="$auth.isAuthenticated" @click="logout">Log out</button>
+      </div>
     </v-app-bar>
 
     <v-content>
-      <div class="main-container">
-        <router-view />
-      </div>
+      <router-view />
     </v-content>
   </v-app>
 </template>
@@ -35,21 +42,39 @@
 <script>
 export default {
   name: 'App',
-
   data: () => ({
-    //
-  })
+    domain: null,
+    clientId: null
+  }),
+  methods: {
+    // Log the user in
+    login() {
+      this.$auth.loginWithRedirect();
+    },
+    // Log the user out
+    logout() {
+      this.$auth.logout({
+        returnTo: window.location.origin
+      });
+    }
+  }
 };
 </script>
 
 <style>
 @import url('https://fonts.googleapis.com/css?family=Lora:700&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  color: white !important;
+}
 .theme--light.v-application {
-  background: linear-gradient(
-      0deg,
-      rgba(21, 15, 52, 0.95),
-      rgba(21, 15, 52, 0.95)
-    ),
+  background: linear-gradient(0deg, #150f34f2, rgba(21, 15, 52, 0.95)),
     url('./assets/image.png') !important;
 }
 
@@ -101,5 +126,9 @@ hr.alt {
   background-image: linear-gradient(to right, #ffd14600, #ffd146);
   height: 2px;
   border: 0;
+}
+
+input {
+  background: #fff !important;
 }
 </style>

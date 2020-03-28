@@ -1,6 +1,10 @@
 const dotenv = require('dotenv');
 dotenv.config({ path: './config.env' });
-const { Kayn, REGIONS } = require('kayn');
+const { Kayn, REGIONS, BasicJSCache, METHOD_NAMES } = require('kayn');
+
+const basicCache = new BasicJSCache();
+const myCache = basicCache;
+
 const kayn = Kayn(process.env.API_KEY)({
   region: REGIONS.EUROPE_WEST,
   apiURLPrefix: 'https://%s.api.riotgames.com',
@@ -17,24 +21,26 @@ const kayn = Kayn(process.env.API_KEY)({
     shouldExitOn403: false
   },
   cacheOptions: {
-    cache: null,
+    cache: myCache,
     timeToLives: {
-      useDefault: false,
-      byGroup: {},
-      byMethod: {}
+      useDefault: true,
+      byGroup: {
+        DDRAGON: 1000 * 60 * 60 * 24 * 30,
+        SUMMONER: 100000
+      }
     }
   }
 });
 
 exports.getRank = async (req, res) => {
   let userData = {};
-
+  console.log(`User Found: ${req.params.name}`);
+  console.log(`Region Found: ${req.params.platform}`);
   const efficiently = async kayn => {
     try {
       const summoner = await kayn.Summoner.by
         .name(req.params.name)
         .region(REGIONS.EUROPE_WEST);
-
       const rankedData = await kayn.League.Entries.by.summonerID(summoner.id);
       const leagueData = await kayn.League.by.uuid(rankedData[0].leagueId);
       const newRankedData = await rankedData.filter(
@@ -47,7 +53,8 @@ exports.getRank = async (req, res) => {
         summonerWins: newRankedData[0].wins,
         summonerLosses: newRankedData[0].losses,
         summonerLp: newRankedData[0].leaguePoints,
-        summonerLeagueName: leagueData.name
+        summonerLeagueName: leagueData.name,
+        profileIcon: summoner.profileIconId
       };
 
       res.json({

@@ -43,8 +43,7 @@ export default {
 };
 </script>
 
-<style >
-
+<style scoped>
 .search {
   background: #0d0920;
   width: 65%;

@@ -1,28 +1,24 @@
 <template>
   <section class="userMostLossContainer">
     <div v-if="loading" class="loading-search text-center">
-      <v-progress-circular
-        :size="100"
-        color="primary"
-        indeterminate
-      ></v-progress-circular>
+      <v-progress-circular :size="100" color="primary" indeterminate></v-progress-circular>
     </div>
     <div v-if="error">
       <h1>An error has occoured</h1>
       {{ error }}
       <router-link to="/">Try Again</router-link>
     </div>
-    <div class="userMostLoss" v-if="profileData">
+    <div class="userMostLoss" v-if="data">
       <div class="row">
         <div class="col-sm-9 sum-name">
           <div class="align">
-            <h1>{{ profileData.data.mostLosses.champ }}</h1>
+            <h1>{{ data.data.mostLosses.champ }}</h1>
           </div>
           <h2 class="champStats">Is Your Worst Champion</h2>
           <hr />
           <h5 class="champStats">
             {{
-              `You have lost ${profileData.data.mostLosses.losses} of your last 20 Games`
+            `You have lost ${data.data.mostLosses.losses} of your last 20 Games`
             }}
           </h5>
         </div>
@@ -36,10 +32,9 @@
 </template>
 
 <script>
-const axios = require('axios');
-
 export default {
   name: 'userMostLoss',
+  props: ['data'],
   data() {
     return {
       loading: false,
@@ -51,10 +46,6 @@ export default {
   async created() {
     this.loading = true;
     try {
-      const res = await axios.get(
-        `/api/v1/${this.$route.params.platform}/${this.$route.params.name}`
-      );
-      this.profileData = res;
       this.loading = false;
     } catch (error) {
       this.error = error;

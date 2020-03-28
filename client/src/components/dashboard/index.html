@@ -1,0 +1,160 @@
+<?php
+    $icon = get_post_meta( get_the_ID(), '_soundvision_icon', true);
+    $website = get_post_meta( get_the_ID(), '_soundvision_websiteurl', true);
+    $facebook = get_post_meta( get_the_ID(), '_soundvision_facebookurl', true);
+    $twitter = get_post_meta( get_the_ID(), '_soundvision_twitterurl', true);
+    $youtube = get_post_meta( get_the_ID(), '_soundvision_youtubeurl', true);
+    $instagram = get_post_meta( get_the_ID(), '_soundvision_instaurl', true);
+    $linkedin = get_post_meta( get_the_ID(), '_soundvision_linkedinurl', true);
+    $vimeo = get_post_meta( get_the_ID(), '_soundvision_vimeourl', true);
+    $course = get_post_meta( get_the_ID(), '_soundvision_courseurl', true);
+?>
+    <div class="col-sm-12 col-lg-4" id='item-<?php echo get_the_id() ?>'>
+	<div class="modal-footer">
+      </div>
+            <div class="row">
+                <div class="d-none d-lg-block col-md-12 align-self-start of-hidden">
+                    <a href="#modal-<?php echo get_the_id()?>" data-toggle="modal" data-target="#modal-<?php echo get_the_id()?>">
+                        <?php if ( has_post_thumbnail() ) {
+                        the_post_thumbnail('normal',["class"=>""]);
+                        } else { ?>
+                        <img src="<?php bloginfo('template_directory'); ?>/images/default-image.jpg" alt="<?php the_title(); ?>" />
+                        <?php } ?>
+                    </a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-lg-12 pt-3">
+                    <a href="#modal-<?php echo get_the_id()?>" data-toggle="modal" data-target="#modal-<?php echo get_the_id()?>"><h3 class="display-5 lato"> <span class=" highlight-blue "><?php the_title() ?></span></h3></a>
+                    <div class="row">
+                        <div class="col-12 col-lg-12 text-justify mt-3 sound-vision">
+                            <p class="txt-courses-courses font-weight-light"><?php echo wp_trim_words( get_the_content(), 30, '...' ); ?></p>
+                        </div>
+                        <div class="col-12 col-lg-12">
+                            <span class="font-background d-none d-lg-inline"><?php echo $icon; ?></span>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+        <div class="col-12 text-right bg-white pb-4" >
+            <a class="bg-purple button-discover color-white"  href="#modal-<?php echo get_the_id()?>" data-toggle="modal" data-target="#modal-<?php echo get_the_id()?>">
+                Discover 
+				<img src="/wp-content/themes/creatve_tech_port/images/fleche-carre.svg" style="width:2rem; height:2rem">            </a>
+        </div>
+    </div>
+
+ <!-- Modal -->
+<div class="modal fade bd-example-modal-xl" id="modal-<?php echo get_the_id()?>" tabindex="-1" role="dialog" aria-labelledby="ModalLabel<?php echo get_the_id()?>" aria-hidden="true">	
+  <div class="modal-dialog modal-dialog-centered modal-xl" role="dialog">
+    <div class="modal-content modal-courses pr-0 pt-4">
+		<button type="button" class="btn btn-modal-courses" data-dismiss="modal">x</button>
+        <div class="modal-header modal-header-no-border pr-0">
+            <div class="d-none d-lg-block col-lg-1 align-self-center icon-blue text-center"><?php echo $icon; ?></div>
+            <div class="col-11 align-self-center pr-0">
+                <h5 class="modal-title pb-2 lead text-uppercase text-muted text-title  modal-border-bottom" id="ModalLabel<?php echo get_the_id()?>"><?php echo the_title()?></h5>
+            </div>
+        </div>
+        <div class="modal-body mr-4">
+            <div class="row">
+                <?php
+                if(($website == null) && ($course == null) && ($facebook == null) && ($twitter == null) && ($youtube  == null) && ($instagram == null) && ($linkedin == null) && ($vimeo == null))
+                    :
+                    $display = "d-none";
+                    $col = "col-lg-11";
+                    ;
+                else:
+                    $display = "d-block";
+                    $col = "col-lg-6";
+                endif;
+                    ?>
+                <div class="col-12 offset-0 <?php echo $col ?> offset-lg-1 align-self-center text-justify text-gray pl-4 ">
+                      <p class="text-gray link-blue"><?php the_content()?></p>
+                </div>
+                <div class="col-12 col-lg-5 align-self-center pt-lg-1 <?php echo $display ?> pb-4">
+                        <?php if( empty( $website) ) : 
+                            if( empty( $course) ) : 
+                                echo '';
+                            else :
+                                echo '<div class="row pt-4 justify-content-center text-center">
+                                    <div class="col-12 col-lg-6 pb-3 lead"><h4>Official University Course Informations</h4>
+                                        <a href="'.$course.'" target="_blank"><button type="button" class="btn bg-purple ">Learn More</button></a>
+                                    </div>
+                                </div>';
+                            endif;
+                        else :
+                            echo '
+                                <div class="row pt-4 justify-content-center text-center">
+                                    <div class="col-12 col-lg-6 pb-3 lead"><h4>Learn more about this</h4>
+                                        <a href="'.$website.'" target="_blank"><button type="button" class="btn btn-pink">Go to Course</button></a>
+                                    </div>
+                                    <div class="col-12 col-lg-6 pb-3 lead"><h4>Official University Course Informations</h4>
+                                        <a href="'.$course.'" target="_blank"><button type="button" class="btn btn-pink">Go to Course</button></a>
+                                    </div>
+                                </div>'
+                        ;?>
+                        
+                        <?php endif; ?>
+                        <div class="row justify-content-center pl-5 pr-5">
+                        <?php if( empty( $facebook) ) : 
+                            echo '';
+                        else :
+                            echo '
+                            <div class="col-4 pt-4 text-center">
+                            <a href="'.$facebook.'" target="_blank"><i class="fab fa-facebook icon-social-modal"></i></a>
+                            </div>';
+                        ;?>
+                        <?php endif; ?>
+                        <?php if( empty( $twitter) ) : 
+                            echo '';
+                        else :
+                            echo '<div class="col-4 pt-4 text-center">
+                            <a href="'.$twitter.'" target="_blank"><i class="fab fa-twitter icon-social-modal"></i></a>
+                            </div>';
+                        ;?>
+
+                        <?php endif; ?>
+                        
+                        <?php if( empty( $youtube) ) : 
+                            echo '';
+                        else :
+                            echo '<div class="col-4 pt-4 text-center">
+                            <a href="'.$youtube.'" target="_blank"><i class="fab fa-youtube icon-social-modal"></i></a>
+                            </div>';
+                        ;?>
+                        <?php endif; ?>
+                        <?php if( empty( $instagram) ) : 
+                            echo '';
+                        else :
+                            echo '<div class="col-4 pt-4 text-center">
+                            <a href="'.$instagram.'" target="_blank"><i class="fab fa-instagram icon-social-modal"></i></a>
+                            </div>';
+                        ;?>
+
+                        <?php endif; ?>
+                        
+                        <?php if( empty( $linkedin) ) : 
+                            echo '';
+                        else :
+                            echo '<div class="col-4 pt-4 text-center">
+                            <a href="'.$linkedin.'" target="_blank"><i class="fab fa-linkedin icon-social-modal"></i></a>
+                            </div>';
+                        ;?>
+                        <?php endif; ?>
+                        <?php if( empty( $vimeo) ) : 
+                            echo '';
+                        else :
+                            echo '<div class="col-4 pt-4 text-center">
+                            <a href="'.$vimeo.'" target="_blank"><i class="fab fa-vimeo-v icon-social-modal"></i></a>
+                            </div>';
+                        ;?>
+
+                        <?php endif; ?>
+                    </div>
+                        
+                    </div>
+            </div>
+      </div>
+
+    </div>
+  </div>
+</div>
