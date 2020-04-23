@@ -3,7 +3,7 @@
     <div v-if="loading" class="loading-search text-center">
       <v-progress-circular :size="100" color="primary" indeterminate></v-progress-circular>
     </div>
-    <div v-if="data">
+    <div v-if="this.data">
       <userName></userName>
       <userMostWins :data="data"></userMostWins>
       <userMostLoss :data="data"></userMostLoss>
@@ -38,7 +38,6 @@ export default {
   beforeCreate() {},
   async created() {
     try {
-      
       this.loading = true;
       const res = await axios.get(
         `/api/v1/${this.$route.params.platform}/${this.$route.params.name}`
@@ -53,12 +52,18 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .loading-search {
   margin-top: 50px;
 }
 
 .container {
   padding: 50px;
+}
+
+.summoner-champion-bw-img {
+  max-width: 100%;
+  height: auto;
+  width: auto; /* for ie9 */
 }
 </style>

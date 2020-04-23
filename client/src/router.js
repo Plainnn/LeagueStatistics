@@ -4,6 +4,8 @@ import Search from './components/Search';
 import Profile from './components/Profile';
 import userProfile from './components/userProfile';
 import ChampionPage from './components/champion/ChampionPage';
+import ChampionPageCompare from './components/champion/ChampionPageCompare';
+import AllChampions from './components/champion/AllChampions';
 import { authGuard } from './auth/authGuard';
 Vue.use(Router);
 
@@ -30,6 +32,16 @@ export default new Router({
       path: '/champ/:key/:id',
       component: ChampionPage,
       name: 'ChampionPage'
+    },
+    {
+      path: '/champions/',
+      component: AllChampions,
+      name: 'AllChampions'
+    },
+    {
+      path: '/champ/:key1/:id1/:key2/:id2',
+      component: ChampionPageCompare,
+      name: 'ChampionPageCompare'
     }
   ]
 });

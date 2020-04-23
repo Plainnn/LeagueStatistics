@@ -24,6 +24,7 @@
       <v-spacer></v-spacer>
       <router-link to="/" class="white">Home</router-link>
       <router-link to="/profile" class="white">Profile</router-link>
+      <router-link to="/champions" class="white">Champions</router-link>
       <!-- Check that the SDK client is not currently loading before accessing is methods -->
       <div v-if="!$auth.loading">
         <!-- show login when not authenticated -->
@@ -64,18 +65,23 @@ export default {
 <style>
 @import url('https://fonts.googleapis.com/css?family=Lora:700&display=swap');
 
+.v-dialog.v-dialog--active {
+  overflow-x: hidden;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-body {
-  color: white !important;
-}
-.theme--light.v-application {
+#app {
   background: linear-gradient(0deg, #150f34f2, rgba(21, 15, 52, 0.95)),
     url('./assets/image.png') !important;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 
 .main-container {

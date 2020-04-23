@@ -24,6 +24,10 @@
         </div>
 
         <div class="col-sm-3 sum-rank">
+          <v-img
+            :src="require(`./champion/util/img/champs/nobkg/${data.data.mostLosses.champ}.png`)"
+            class="summoner-champion-bw-img text-center"
+          />
           <h1 style="text-align:right">image</h1>
         </div>
       </div>

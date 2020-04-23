@@ -12,7 +12,10 @@
       <div class="userMostWins">
         <div class="row">
           <div class="col-sm-3 sum-name">
-            <h1 style="text-align:left">image</h1>
+            <v-img
+              :src="require(`./champion/util/img/champs/nobkg/${data.data.mostLosses.champ}.png`)"
+              class="summoner-champion-bw-img text-center"
+            />
           </div>
           <div v-if="data" class="col-sm-9 sum-rank">
             <div class="align">

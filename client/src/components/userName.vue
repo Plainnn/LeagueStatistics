@@ -3,14 +3,17 @@
     <div v-if="loading" class="loading-search text-center">
       <v-progress-circular :size="100" color="primary" indeterminate></v-progress-circular>
     </div>
-    <div v-if="error">
-      <h1>{{ error }}</h1>
-      <router-link to="/">Try Again</router-link>
-    </div>
-    <div v-else-if="this.data">
-      <div class="rank text-center" v-if="userImage" data-aos="fade-down" data-aos-delay="1000">
-        <img
+
+    <div v-if="this.data">
+      <div
+        class="rank text-center"
+        v-if="this.summmonerTier"
+        data-aos="fade-down"
+        data-aos-delay="1000"
+      >
+        <v-img
           :src="require(`./img/${this.summmonerTier.toLowerCase()}_${this.summmonerRank.toLowerCase()}.png`)"
+          class="summoner-rank-img text-center"
         />
       </div>
       <div class="userName">
@@ -93,22 +96,38 @@ export default {
       const res = await axios.get(
         `/api/v1/getrank/${this.$route.params.platform}/${this.$route.params.name}`
       );
+      console.log(res.data.data);
       this.data = res;
-      this.summonerName = res.data.data.summonerName;
-      this.summmonerTier = res.data.data.summmonerTier;
-      this.summmonerRank = res.data.data.summmonerRank;
 
-      this.summonerLp = res.data.data.summonerLp;
-      this.summonerLeagueName = res.data.data.summonerLeagueName;
-      this.loading = false;
-      this.endVal =
-        (parseFloat(res.data.data.summonerWins) /
-          (parseFloat(res.data.data.summonerLosses) +
-            parseFloat(res.data.data.summonerWins))) *
-        100;
+      if (res.data.data.summmonerRank) {
+        this.summonerName = res.data.data.summonerName;
+        this.summmonerTier = res.data.data.summmonerTier;
+        this.summmonerRank = res.data.data.summmonerRank;
 
-      this.imgUrl = `.../img/${this.summmonerTier.toLowerCase()}_${this.summmonerRank.toLowerCase()}.png`;
+        this.summonerLp = res.data.data.summonerLp;
+        this.summonerLeagueName = res.data.data.summonerLeagueName;
+        this.loading = false;
+        this.endVal =
+          (parseFloat(res.data.data.summonerWins) /
+            (parseFloat(res.data.data.summonerLosses) +
+              parseFloat(res.data.data.summonerWins))) *
+          100;
+
+        this.imgUrl = `.../img/${this.summmonerTier.toLowerCase()}_${this.summmonerRank.toLowerCase()}.png`;
+      } else {
+        this.summonerName = res.data.data.summonerName;
+        this.summmonerTier = ' ';
+        this.summmonerRank = res.data.data.summmonerRank;
+
+        this.summonerLp = 0;
+        this.summonerLeagueName = '';
+        this.loading = false;
+        this.endVal = null;
+
+        this.imgUrl = '';
+      }
     } catch (error) {
+      console.log(error);
       this.loading = false;
       this.error = true;
     }
@@ -117,6 +136,12 @@ export default {
 </script>
 
 <style scoped>
+.summoner-rank-img {
+  margin: 0 auto;
+  display: inline-block;
+  width: 22%;
+}
+
 .loading-search {
   margin-top: 50px;
 }

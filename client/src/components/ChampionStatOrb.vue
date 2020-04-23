@@ -30,7 +30,12 @@ export default {
         : '';
     },
     championWinRate() {
-      return this.data ? this.data.rate.toFixed(2) : '';
+      return this.data
+        ? (
+            this.championWins /
+            (this.championWins + this.championLosses)
+          ).toFixed(2)
+        : '';
     },
     championWins() {
       return this.data ? this.data.won : '';
