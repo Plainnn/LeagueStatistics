@@ -6,7 +6,6 @@ const basicCache = new BasicJSCache();
 const myCache = basicCache;
 
 const kayn = Kayn(process.env.API_KEY)({
-  region: REGIONS.EUROPE_WEST,
   apiURLPrefix: 'https://%s.api.riotgames.com',
   locale: 'en_US',
   debugOptions: {
@@ -34,31 +33,37 @@ const kayn = Kayn(process.env.API_KEY)({
 
 exports.getRank = async (req, res) => {
   let userData = {};
-  console.log(`User Found: ${req.params.name} 1`);
-  console.log(`Region Found: ${req.params.platform}`);
+
   const efficiently = async (kayn) => {
+    let data = {};
     try {
       const summoner = await kayn.Summoner.by
         .name(req.params.name)
-        .region(REGIONS.EUROPE_WEST); // req.params.platform but i recieve in like euw/na/kr/br/ needs to be changed into the right format of REGIONS.NORTH_AMERICA (for example)
-      const rankedData = await kayn.League.Entries.by.summonerID(summoner.id);
-      console.log(rankedData.length);
-      if (!rankedData.length) {
-        const data = {
+        .region(req.params.platform.toLowerCase());
+      // req.params.platform but i recieve in like euw/na/kr/br/ needs to be changed into the right format of REGIONS.NORTH_AMERICA (for example)
+      const rankedData = await kayn.League.Entries.by
+        .summonerID(summoner.id)
+        .region(req.params.platform.toLowerCase());
+
+      if (rankedData.length == 0) {
+        data = {
           summonerName: summoner.name,
-          summmonerRank: 'Unranked',
+          summmonerTier: 'Unranked',
+          summmonerRank: ' ',
+          summonerWins: 'No Ranked Wins',
+          summonerLosses: 'No Ranked Losses',
+          summonerLp: '0',
+          summonerLeagueName: ' ',
           profileIcon: summoner.profileIconId,
         };
-
-        res.json({
-          data,
-        });
       } else {
-        const leagueData = await kayn.League.by.uuid(rankedData[0].leagueId);
+        const leagueData = await kayn.League.by
+          .uuid(rankedData[0].leagueId)
+          .region(req.params.platform.toLowerCase());
         const newRankedData = await rankedData.filter(
           (d) => d.queueType === 'RANKED_SOLO_5x5'
         );
-        const data = {
+        data = {
           summonerName: summoner.name,
           summmonerTier: newRankedData[0].tier,
           summmonerRank: newRankedData[0].rank,
@@ -68,13 +73,11 @@ exports.getRank = async (req, res) => {
           summonerLeagueName: leagueData.name,
           profileIcon: summoner.profileIconId,
         };
-
-        console.log(data);
-
-        res.json({
-          data,
-        });
       }
+
+      res.json({
+        data,
+      });
     } catch (error) {
       console.log(error);
       res.status(400).json({

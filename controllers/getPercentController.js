@@ -11,14 +11,14 @@ const kayn = Kayn(process.env.API_KEY)({
   locale: 'en_US',
   debugOptions: {
     isEnabled: true,
-    showKey: false
+    showKey: false,
   },
   requestOptions: {
     shouldRetry: true,
     numberOfRetriesBeforeAbort: 3,
     delayBeforeRetry: 1000,
     burst: true,
-    shouldExitOn403: false
+    shouldExitOn403: false,
   },
   cacheOptions: {
     cache: myCache,
@@ -26,20 +26,32 @@ const kayn = Kayn(process.env.API_KEY)({
       useDefault: true,
       byGroup: {
         DDRAGON: 1000 * 60 * 60 * 24 * 30,
-        SUMMONER: 100000
-      }
-    }
-  }
+        SUMMONER: 100000,
+      },
+    },
+  },
 });
 exports.getPercent = async (req, res) => {
   let userData = {};
-
+  let regionsArray = {
+    euw: REGIONS.EUROPE_WEST,
+    br: REGIONS.BRAZIL,
+    eune: REGIONS.EUROPE,
+    kr: 'REGIONS.KOREA',
+    lan: 'REGIONS.LATIN_AMERICA_NORTH',
+    las: 'REGIONS.LATIN_AMERICA_SOUTH',
+    na: REGIONS.NORTH_AMERICA,
+    oce: 'REGIONS.OCEANIA',
+    ru: 'REGIONS.RUSSIA',
+    tr: 'REGIONS.TURKEY',
+    jp: 'REGIONS.JAPAN',
+  };
   const processMatch = (championIdMap, summonerId, match) => {
     const { participantId } = match.participantIdentities.find(
-      pi => pi.player.summonerId === summonerId
+      (pi) => pi.player.summonerId === summonerId
     );
     const participant = match.participants.find(
-      p => p.participantId === participantId
+      (p) => p.participantId === participantId
     );
     const champion = championIdMap.data[participant.championId];
     return {
@@ -48,21 +60,25 @@ exports.getPercent = async (req, res) => {
       didWin:
         participant.teamId ===
         match.teams.find(({ win }) => win === 'Win').teamId,
-      championName: champion.name
+      championName: champion.name,
     };
   };
 
-  const efficiently = async kayn => {
+  const efficiently = async (kayn) => {
     try {
       const championIdMap = await kayn.DDragon.Champion.listDataByIdWithParentAsId();
-      const { id, accountId } = await kayn.Summoner.by.name(req.params.name);
+      const { id, accountId } = await kayn.Summoner.by
+        .name(req.params.name)
+        .region(req.params.platform.toLowerCase());
       const { matches } = await kayn.Matchlist.by
         .accountID(accountId)
-        .query({ queue: 420 });
+        .query({ queue: 420 })
+        .region(req.params.platform.toLowerCase());
+
       const gameIds = matches.slice(0, 20).map(({ gameId }) => gameId);
       const matchDtos = await Promise.all(gameIds.map(kayn.Match.get));
       // `processor` is a helper function to make the subsequent `map` cleaner.
-      const processor = match => processMatch(championIdMap, id, match);
+      const processor = (match) => processMatch(championIdMap, id, match);
       const results = await Promise.all(matchDtos.map(processor));
       res.json({ results });
       let data = [];
@@ -74,16 +90,16 @@ exports.getPercent = async (req, res) => {
         }, {});
       };
 
-      const copy = results.filter(val => val.didWin == true);
+      const copy = results.filter((val) => val.didWin == true);
       let grouped = Object.entries(groupBy(copy, 'championName'));
 
-      const copyLoss = results.filter(val => val.didWin == false);
+      const copyLoss = results.filter((val) => val.didWin == false);
       let groupedLoss = Object.entries(groupBy(copyLoss, 'championName'));
 
-      const wins = Object.keys(grouped).map(el => {
+      const wins = Object.keys(grouped).map((el) => {
         return {
           champ: grouped[el][0],
-          wins: grouped[el][1].length
+          wins: grouped[el][1].length,
         };
       });
 
@@ -91,26 +107,24 @@ exports.getPercent = async (req, res) => {
         champ.wins > game.wins ? champ : game
       );
 
-      const loss = Object.keys(groupedLoss).map(el => {
+      const loss = Object.keys(groupedLoss).map((el) => {
         return {
           champ: groupedLoss[el][0],
-          losses: groupedLoss[el][1].length
+          losses: groupedLoss[el][1].length,
         };
       });
 
       const mostLosses = loss.reduce((champ, game) =>
         champ.losses > game.losses ? champ : game
       );
-
-      
     } catch (error) {
       res.status(400).json({
-        error
+        error,
       });
     }
   };
 
-  const main = async kayn => {
+  const main = async (kayn) => {
     let results = await efficiently(kayn);
   };
 

@@ -13,7 +13,7 @@
         <div class="row">
           <div class="col-sm-3 sum-name">
             <v-img
-              :src="require(`./champion/util/img/champs/nobkg/${data.data.mostLosses.champ}.png`)"
+              :src="require(`./champion/util/img/champs/nobkg/${data.data.mostWins.champ}.png`)"
               class="summoner-champion-bw-img text-center"
             />
           </div>

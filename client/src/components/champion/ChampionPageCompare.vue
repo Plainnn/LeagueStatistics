@@ -79,5 +79,9 @@ hr {
 .theme--light.v-card {
   background: #150f34f2;
 }
+
+h3 {
+  width: 20%;
+}
 </style>
 

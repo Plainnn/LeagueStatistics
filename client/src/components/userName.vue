@@ -13,6 +13,7 @@
       >
         <v-img
           :src="require(`./img/${this.summmonerTier.toLowerCase()}_${this.summmonerRank.toLowerCase()}.png`)"
+          lazy-src="./img/default.png"
           class="summoner-rank-img text-center"
         />
       </div>
@@ -96,7 +97,7 @@ export default {
       const res = await axios.get(
         `/api/v1/getrank/${this.$route.params.platform}/${this.$route.params.name}`
       );
-      console.log(res.data.data);
+      console.log(res);
       this.data = res;
 
       if (res.data.data.summmonerRank) {

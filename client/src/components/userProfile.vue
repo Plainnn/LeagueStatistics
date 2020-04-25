@@ -1,5 +1,8 @@
 <template>
   <section class="container">
+    <div v-if="error">
+      <ErrorHandle :errorMsg="error" />
+    </div>
     <div v-if="loading" class="loading-search text-center">
       <v-progress-circular :size="100" color="primary" indeterminate></v-progress-circular>
     </div>
@@ -19,13 +22,15 @@ import userMostWins from '../components/userMostWins';
 import userMostLoss from '../components/userMostLoss';
 import userName from '../components/userName';
 import PlayedChampions from '../components/PlayedChampions';
+import ErrorHandle from '../components/util/ErrorHandle';
 
 export default {
   components: {
     userMostWins,
     userMostLoss,
     userName,
-    PlayedChampions
+    PlayedChampions,
+    ErrorHandle
   },
   name: 'userProfile',
   data() {
@@ -37,16 +42,19 @@ export default {
   },
   beforeCreate() {},
   async created() {
+    /*eslint-disable */
+
     try {
       this.loading = true;
       const res = await axios.get(
         `/api/v1/${this.$route.params.platform}/${this.$route.params.name}`
       );
       this.data = res;
+
       this.loading = false;
     } catch (error) {
       this.loading = false;
-      this.error = true;
+      this.error = error;
     }
   }
 };

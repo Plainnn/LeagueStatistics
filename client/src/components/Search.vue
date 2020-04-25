@@ -1,19 +1,19 @@
 <template>
-  <section class="search">
+  <section class="search pa-12">
     <h1>Check Your Statistics</h1>
     <form v-on:submit.prevent="onSubmit">
-      <label for="region"></label>
-      <select name id="region" v-model="region">
-        <option value="EUW">EUW</option>
-        <option value="NA">NA</option>
-        <option value="KR">KR</option>
+      <select name id="region" v-model="region" class="dropdown-region px-4 ml-12">
+        <option selected style="color: white">Region</option>
+        <option value="euw">EUW</option>
+        <option value="na">NA</option>
+        <option value="kr">KR</option>
       </select>
       <label for="sumName"></label>
       <input
         type="text"
         name="text"
         v-model="sumName"
-        class="sumName"
+        class="sumName pa-6"
         id="sumName"
         placeholder="Dyrus"
       />
@@ -54,6 +54,7 @@ export default {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  color: #fff;
 }
 
 .search .btn {
@@ -63,13 +64,24 @@ export default {
   border: 0;
   padding: 15px;
   border-radius: 13px;
+  color: #181818;
+}
+
+.search .sumName {
+  width: 75%;
+  margin: 0 auto;
+}
+
+.dropdown-region {
+  border-radius: 13px;
+  height: 3em;
 }
 
 .search .sumName,
 .search select {
-  height: 2.25em;
-  margin: 5px 25px;
-  background: #fff;
+  height: 3.25em;
+  margin: 5px 5px;
+  background: #252246 !important;
 }
 .search .sumName {
   border-radius: 10px;

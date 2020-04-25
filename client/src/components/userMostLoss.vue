@@ -28,7 +28,6 @@
             :src="require(`./champion/util/img/champs/nobkg/${data.data.mostLosses.champ}.png`)"
             class="summoner-champion-bw-img text-center"
           />
-          <h1 style="text-align:right">image</h1>
         </div>
       </div>
     </div>

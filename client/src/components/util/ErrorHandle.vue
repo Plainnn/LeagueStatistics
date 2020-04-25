@@ -1,22 +1,6 @@
 <template>
   <div>
-    <div v-if="isHidden && statusCode == 404" class="card">
-      <span class="close" v-on:click="isHidden = !isHidden;"></span>
-
-      <div class="errors">
-        <img
-          src="https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-replays/global/default/btn_replay_error.png"
-        />
-        <img
-          src="https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-replays/global/default/btn_replay_error_hover.png"
-          class="img-top"
-        />
-      </div>
-      <div class="error-bar">
-        <h5>We Couldn't Find This User</h5>
-        <h4>Try checking the spelling</h4>
-      </div>
-    </div>
+    <div>{{errorMsg}}</div>
   </div>
 </template>
 
