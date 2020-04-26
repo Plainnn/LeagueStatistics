@@ -1,6 +1,8 @@
 <template>
   <div>
-    <div>{{errorMsg}}</div>
+    <div v-if="errorMsg == 'Error: Request failed with status code 404'">
+      <h1>Unable to find {{this.$route.params.name}} on server {{this.$route.params.platform}}</h1>
+    </div>
   </div>
 </template>
 

@@ -25,7 +25,7 @@
       </template>
       <div class="pa-2">
         <h3 class="py-2">{{passive.name}}</h3>
-        <span>{{passive.description}}</span>
+        <span v-html="passive.description"></span>
       </div>
     </v-tooltip>
 

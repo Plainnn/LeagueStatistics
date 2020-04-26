@@ -57,9 +57,10 @@ exports.getWinLoss = async (req, res) => {
   const efficiently = async (kayn) => {
     try {
       const championIdMap = await kayn.DDragon.Champion.listDataByIdWithParentAsId();
-      const { id, accountId } = await kayn.Summoner.by
+      const { id, accountId, summonerId } = await kayn.Summoner.by
         .name(req.params.name)
         .region(req.params.platform.toLowerCase());
+
       const { matches } = await kayn.Matchlist.by
         .accountID(accountId)
         .query({ queue: 420 })

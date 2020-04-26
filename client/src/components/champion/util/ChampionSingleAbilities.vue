@@ -25,7 +25,7 @@
       </template>
       <div class="pa-2">
         <h3 class="py-2">{{spells.name}}</h3>
-        <span>{{spells.description}}</span>
+        <span v-html="spells.description"></span>
       </div>
     </v-tooltip>
   </div>

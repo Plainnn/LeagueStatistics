@@ -22,9 +22,10 @@
       </div>
 
       <v-spacer></v-spacer>
-      <router-link to="/" class="white">Home</router-link>
-      <router-link to="/profile" class="white">Profile</router-link>
-      <router-link to="/champions" class="white">Champions</router-link>
+      <router-link to="/" class="white ml-4">Home</router-link>
+      <router-link to="/profile" class="white ml-4">Profile</router-link>
+      <router-link to="/champions" class="white ml-4">Champions</router-link>
+      <router-link to="/leagues" class="white ml-4">Leagues</router-link>
       <!-- Check that the SDK client is not currently loading before accessing is methods -->
       <div v-if="!$auth.loading">
         <!-- show login when not authenticated -->

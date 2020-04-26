@@ -1,6 +1,7 @@
 const express = require('express');
 const summonerRouter = require('./routes/searchRoutes');
 const usersRouter = require('./routes/userRoutes');
+const leaguesRouter = require('./routes/leaguesRoutes');
 const cors = require('cors');
 const dotenv = require('dotenv');
 dotenv.config({ path: './config.env' });
@@ -25,10 +26,10 @@ mongoose
     useNewUrlParser: true,
     useCreateIndex: true,
     useFindAndModify: false,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
   })
   .then(() => console.log('Connected to Database...'))
-  .catch(err => {
+  .catch((err) => {
     console.log(err);
   });
 
@@ -36,7 +37,7 @@ mongoose
 const authConfig = {
   domain: 'lol-stat.eu.auth0.com',
   audience: '/profile',
-  clientId: '2ymZyMoDjB8G95O82zUE63018YLYx1yd'
+  clientId: '2ymZyMoDjB8G95O82zUE63018YLYx1yd',
 };
 
 // Define middleware that validates incoming bearer tokens
@@ -46,12 +47,12 @@ const checkJwt = jwt({
     cache: true,
     rateLimit: true,
     jwksRequestsPerMinute: 5,
-    jwksUri: `https://${authConfig.domain}/.well-known/jwks.json`
+    jwksUri: `https://${authConfig.domain}/.well-known/jwks.json`,
   }),
 
   audience: authConfig.audience,
   issuer: `https://${authConfig.domain}/`,
-  algorithm: ['RS256']
+  algorithm: ['RS256'],
 });
 
 //Import Middleware
@@ -62,6 +63,7 @@ app.use(bodyParser.urlencoded());
 //Import Routes
 app.use('/api/v1/', summonerRouter);
 app.use('/api/v1/users', usersRouter);
+app.use('/api/v1/', leaguesRouter);
 
 const port = 3000;
 app.listen(port, () => {

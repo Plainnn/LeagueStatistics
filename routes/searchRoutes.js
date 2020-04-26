@@ -7,5 +7,6 @@ const getPercentController = require('./../controllers/getPercentController');
 router.route('/:platform/:name').get(getWinLossController.getWinLoss);
 router.route('/winloss/:platform/:name').get(getPercentController.getPercent);
 router.route('/getrank/:platform/:name').get(userRankController.getRank);
+router.route('/getmastery/:platform/:name').get(userRankController.getMastery);
 
 module.exports = router;

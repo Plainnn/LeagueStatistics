@@ -1,6 +1,6 @@
 const dotenv = require('dotenv');
 dotenv.config({ path: './config.env' });
-const { Kayn, REGIONS, BasicJSCache, METHOD_NAMES } = require('kayn');
+const { Kayn, BasicJSCache } = require('kayn');
 
 const basicCache = new BasicJSCache();
 const myCache = basicCache;
@@ -31,6 +31,26 @@ const kayn = Kayn(process.env.API_KEY)({
   },
 });
 
+exports.getMastery = async (req, res) => {
+  try {
+    const { id } = await kayn.Summoner.by
+      .name(req.params.name)
+      .region(req.params.platform.toLowerCase());
+
+    var masteryList = await kayn.ChampionMastery.list(id).region(
+      req.params.platform.toLowerCase()
+    );
+
+    const data = masteryList.slice(0, 10);
+    res.json({
+      data,
+    });
+  } catch (error) {
+    console.log(error);
+    res.json({ error });
+  }
+};
+
 exports.getRank = async (req, res) => {
   let userData = {};
 
@@ -41,6 +61,7 @@ exports.getRank = async (req, res) => {
         .name(req.params.name)
         .region(req.params.platform.toLowerCase());
       // req.params.platform but i recieve in like euw/na/kr/br/ needs to be changed into the right format of REGIONS.NORTH_AMERICA (for example)
+      console.log(summoner);
       const rankedData = await kayn.League.Entries.by
         .summonerID(summoner.id)
         .region(req.params.platform.toLowerCase());

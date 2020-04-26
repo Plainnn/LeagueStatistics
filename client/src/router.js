@@ -4,6 +4,7 @@ import Search from './components/Search';
 import Profile from './components/Profile';
 import userProfile from './components/userProfile';
 import ChampionPage from './components/champion/ChampionPage';
+import LeaguesPage from './components/leagues/LeaguesPage';
 import ChampionPageCompare from './components/champion/ChampionPageCompare';
 import AllChampions from './components/champion/AllChampions';
 import { authGuard } from './auth/authGuard';
@@ -42,6 +43,11 @@ export default new Router({
       path: '/champ/:key1/:id1/:key2/:id2',
       component: ChampionPageCompare,
       name: 'ChampionPageCompare'
+    },
+    {
+      path: '/leagues/',
+      component: LeaguesPage,
+      name: 'LeaguesPage'
     }
   ]
 });
