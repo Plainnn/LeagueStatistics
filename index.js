@@ -65,7 +65,7 @@ app.use('/api/v1/', summonerRouter);
 app.use('/api/v1/users', usersRouter);
 app.use('/api/v1/', leaguesRouter);
 
-const port = 3000;
+const port = process.env.PORT;
 app.listen(port, () => {
   console.log(`Listening on ${port}...`);
 });
