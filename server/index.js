@@ -65,9 +65,8 @@ app.use('/api/v1/', summonerRouter);
 app.use('/api/v1/users', usersRouter);
 app.use('/api/v1/', leaguesRouter);
 
-const port = process.env.PORT;
-app.listen(port, () => {
-  console.log(`Listening on ${port}...`);
+app.listen(process.env.PORT || 3000, function () {
+  console.log('Server listening on port 3000');
 });
 
 console.log(process.env.API_KEY);
