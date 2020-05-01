@@ -4,6 +4,7 @@ import Search from './components/Search';
 import Profile from './components/Profile';
 import userProfile from './components/userProfile';
 import ChampionPage from './components/champion/ChampionPage';
+import UserCreepScore from './components/UserCreepScore';
 import LeaguesPage from './components/leagues/LeaguesPage';
 import ChampionPageCompare from './components/champion/ChampionPageCompare';
 import AllChampions from './components/champion/AllChampions';
@@ -48,6 +49,11 @@ export default new Router({
       path: '/leagues/',
       component: LeaguesPage,
       name: 'LeaguesPage'
+    },
+    {
+      path: '/mastery/:platform/:name',
+      component: UserCreepScore,
+      name: 'UserCreepScore'
     }
   ]
 });

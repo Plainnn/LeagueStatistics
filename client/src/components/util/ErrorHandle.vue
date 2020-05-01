@@ -2,6 +2,30 @@
   <div>
     <div v-if="errorMsg == 'Error: Request failed with status code 404'">
       <h1>Unable to find {{this.$route.params.name}} on server {{this.$route.params.platform}}</h1>
+      <form v-on:submit.prevent="onSubmit">
+        <select
+          name
+          id="region-dropdown"
+          v-model="region"
+          class="dropdown-region px-4 ml-3"
+          @change="getData()"
+        >
+          <option selected value="euw">EUW</option>
+          <option value="na">NA</option>
+          <option value="kr">KR</option>
+        </select>
+
+        <label for="sumName"></label>
+        <input
+          type="text"
+          name="text"
+          v-model="sumName"
+          class="sumName px-4 ml-3"
+          id="sumName"
+          placeholder="Dyrus"
+        />
+        <v-btn type="submit" value="Submit" class="btn button ml-3">Submit</v-btn>
+      </form>
     </div>
   </div>
 </template>
@@ -12,7 +36,8 @@ export default {
   name: 'ErrorHandle',
   data() {
     return {
-      isHidden: true
+      isHidden: true,
+      region: 'euw'
     };
   },
   computed: {
@@ -76,5 +101,17 @@ export default {
 }
 .card:hover .img-top {
   display: inline;
+}
+
+#sumName {
+  width: 50%;
+}
+
+#region,
+#sumName {
+  background: #252246 !important;
+  color: #fff !important;
+  border-radius: 5px;
+  padding: 20px;
 }
 </style>

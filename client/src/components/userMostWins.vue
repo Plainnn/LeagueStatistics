@@ -13,7 +13,7 @@
         <div class="row">
           <div class="col-sm-3 sum-name">
             <v-img
-              :src="require(`./champion/util/img/champs/nobkg/${data.data.mostWins.champ}.png`)"
+              :src="require(`./champion/util/img/champs/nobkg/${wonChampion}.png`)"
               class="summoner-champion-bw-img text-center"
             />
           </div>
@@ -45,6 +45,11 @@ export default {
       error: false,
       profileData: null
     };
+  },
+  computed: {
+    wonChampion() {
+      return this.data ? this.data.data.mostWins.champ.replace(/ /g, '_') : '';
+    }
   },
   beforeCreate() {},
   async created() {
@@ -91,5 +96,11 @@ hr.alt {
   line-height: 49px;
   text-align: right;
   color: #c4b998;
+}
+
+.imgchamp {
+  height: 20px;
+  width: 250px;
+  margin-top: -50px;
 }
 </style>

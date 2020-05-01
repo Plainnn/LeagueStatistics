@@ -17,7 +17,9 @@
         id="sumName"
         placeholder="Dyrus"
       />
-      <input type="submit" value="Submit" class="btn" />
+      <v-btn type="submit" value="Submit" class="mt-8 button" color="primary">
+        <v-icon class="mr-2">mdi-account-search</v-icon>Search
+      </v-btn>
     </form>
   </section>
 </template>
@@ -57,16 +59,6 @@ export default {
   color: #fff;
 }
 
-.search .btn {
-  display: block;
-  margin: 25px auto;
-  background: #ffd046;
-  border: 0;
-  padding: 15px;
-  border-radius: 13px;
-  color: #181818;
-}
-
 .search .sumName {
   width: 75%;
   margin: 0 auto;
@@ -85,5 +77,10 @@ export default {
 }
 .search .sumName {
   border-radius: 10px;
+}
+
+.button {
+  display: block;
+  margin: 0 auto;
 }
 </style>

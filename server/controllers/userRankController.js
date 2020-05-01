@@ -41,7 +41,7 @@ exports.getMastery = async (req, res) => {
       req.params.platform.toLowerCase()
     );
 
-    const data = masteryList.slice(0, 10);
+    const data = masteryList.slice(0, 4);
     res.json({
       data,
     });
@@ -61,7 +61,6 @@ exports.getRank = async (req, res) => {
         .name(req.params.name)
         .region(req.params.platform.toLowerCase());
       // req.params.platform but i recieve in like euw/na/kr/br/ needs to be changed into the right format of REGIONS.NORTH_AMERICA (for example)
-      console.log(summoner);
       const rankedData = await kayn.League.Entries.by
         .summonerID(summoner.id)
         .region(req.params.platform.toLowerCase());

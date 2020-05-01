@@ -40,6 +40,7 @@ exports.getWinLoss = async (req, res) => {
     const participant = match.participants.find(
       (p) => p.participantId === participantId
     );
+
     const champion = championIdMap.data[participant.championId];
 
     return {
@@ -51,6 +52,7 @@ exports.getWinLoss = async (req, res) => {
       championName: champion.name,
       championId: champion.id,
       championKey: champion.key,
+      creepScore: participant.stats.totalMinionsKilled,
     };
   };
 
@@ -74,6 +76,10 @@ exports.getWinLoss = async (req, res) => {
       // `processor` is a helper function to make the subsequent `map` cleaner.
       const processor = (match) => processMatch(championIdMap, id, match);
       const results = await Promise.all(matchDtos.map(processor));
+
+      const cs = results.reduce((a, b) => ({
+        creepScore: a.creepScore + b.creepScore,
+      }));
 
       const winRate = results.reduce((acc, cur) => {
         let champion = cur['championName'];
@@ -141,6 +147,7 @@ exports.getWinLoss = async (req, res) => {
         mostWins,
         mostLosses,
         winRate,
+        cs,
       });
     } catch (error) {
       if (error.statusCode == 404) {

@@ -1,7 +1,11 @@
 <template>
-  <div class="flex-wrapper">
-    <ChampionStatOrb v-for="(champions, index) in this.data" :key="index" :data="data[index]"></ChampionStatOrb>
-  </div>
+  <v-row align="center" justify="center">
+    <ChampionStatOrb
+      v-for="(champions, index) in this.data"
+      :key="index"
+      :data="data[index]"
+    ></ChampionStatOrb>
+  </v-row>
 </template>
 
 <script>
@@ -16,11 +20,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.flex-wrapper {
-  display: flex;
-  flex-flow: row wrap;
-  list-style: none;
-  padding: 50pxc;
-}
-</style>
+<style scoped></style>

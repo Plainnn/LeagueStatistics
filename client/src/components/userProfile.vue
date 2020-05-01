@@ -4,13 +4,20 @@
       <ErrorHandle :errorMsg="error" />
     </div>
     <div v-if="loading" class="loading-search text-center">
-      <v-progress-circular :size="100" color="primary" indeterminate></v-progress-circular>
+      <v-progress-circular
+        :size="100"
+        color="primary"
+        indeterminate
+      ></v-progress-circular>
     </div>
     <div v-if="this.data">
       <userName></userName>
       <userMostWins :data="data"></userMostWins>
       <userMostLoss :data="data"></userMostLoss>
       <PlayedChampions :data="data.data.winRate"></PlayedChampions>
+      <UserMastery :data="this.$route.params"></UserMastery>
+      <UserCreepScore></UserCreepScore>
+      <UserMatchTimeline />
     </div>
   </section>
 </template>
@@ -18,10 +25,13 @@
 <script>
 const axios = require('axios');
 
+import UserMatchTimeline from '../components/UserMatchTimeline';
 import userMostWins from '../components/userMostWins';
+import UserCreepScore from '../components/UserCreepScore';
 import userMostLoss from '../components/userMostLoss';
 import userName from '../components/userName';
 import PlayedChampions from '../components/PlayedChampions';
+import UserMastery from '../components/UserMastery';
 import ErrorHandle from '../components/util/ErrorHandle';
 
 export default {
@@ -30,7 +40,10 @@ export default {
     userMostLoss,
     userName,
     PlayedChampions,
-    ErrorHandle
+    ErrorHandle,
+    UserMastery,
+    UserCreepScore,
+    UserMatchTimeline
   },
   name: 'userProfile',
   data() {
@@ -50,7 +63,7 @@ export default {
         `/api/v1/${this.$route.params.platform}/${this.$route.params.name}`
       );
       this.data = res;
-
+      console.log(res.data);
       this.loading = false;
     } catch (error) {
       this.loading = false;

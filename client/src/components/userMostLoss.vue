@@ -8,7 +8,7 @@
       {{ error }}
       <router-link to="/">Try Again</router-link>
     </div>
-    <div class="userMostLoss" v-if="data">
+    <div class="userMostLoss mb-12" v-if="data">
       <div class="row">
         <div class="col-sm-9 sum-name">
           <div class="align">
@@ -24,10 +24,9 @@
         </div>
 
         <div class="col-sm-3 sum-rank">
-          <v-img
-            :src="require(`./champion/util/img/champs/nobkg/${data.data.mostLosses.champ}.png`)"
-            class="summoner-champion-bw-img text-center"
-          />
+          <div class="imgchamp">
+            <img :src="require(`./champion/util/img/champs/nobkg/${(lostChampion)}.png`)" />
+          </div>
         </div>
       </div>
     </div>
@@ -44,6 +43,16 @@ export default {
       error: false,
       profileData: null
     };
+  },
+  computed: {
+    imgSrc() {
+      return `x`;
+    },
+    lostChampion() {
+      return this.data
+        ? this.data.data.mostLosses.champ.replace(/ /g, '_')
+        : '';
+    }
   },
   beforeCreate() {},
   async created() {
@@ -77,6 +86,19 @@ export default {
 
 hr.alt {
   flex-grow: 1;
+}
+
+.imgchamp {
+  height: 440px;
+  width: 250px;
+  margin-top: -50px;
+  display: block;
+}
+
+.imgchamp img {
+  object-fit: contain;
+  height: 500px;
+  display: block;
 }
 
 .userMostLossontainer {

@@ -1,9 +1,12 @@
 <template>
   <div>
     <v-row class="mt-12">
-      <v-col cols="11"></v-col>
+      <v-col cols="1"></v-col>
       <v-col cols="1">
-        <v-btn class="orange" @click="$router.go(-1)">back</v-btn>
+        <v-btn class="orange" @click="$router.go(-1)">
+          <v-icon class="mr-2">mdi-keyboard-backspace</v-icon>back
+        </v-btn>
+        <v-col cols="10"></v-col>
       </v-col>
     </v-row>
     <div class="d-flex">

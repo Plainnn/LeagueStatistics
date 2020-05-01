@@ -7,6 +7,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 const axios = require('axios');
 import VueDraggable from 'vue-draggable';
+import VueApexCharts from 'vue-apexcharts';
 
 // Import the plugin here
 import { Auth0Plugin } from './auth';
@@ -17,6 +18,7 @@ const audience = '/profile';
 // Install the authentication plugin here
 Vue.use(Auth0Plugin, {
   VueDraggable,
+  VueApexCharts,
   domain,
   clientId,
   audience, // NEW - configure the plugin with the audience value
@@ -28,6 +30,8 @@ Vue.use(Auth0Plugin, {
     );
   }
 });
+
+Vue.component('apexchart', VueApexCharts);
 
 Vue.config.productionTip = false;
 Vue.prototype.$http = axios;

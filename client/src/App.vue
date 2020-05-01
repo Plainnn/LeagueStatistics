@@ -22,16 +22,28 @@
       </div>
 
       <v-spacer></v-spacer>
-      <router-link to="/" class="white ml-4">Home</router-link>
-      <router-link to="/profile" class="white ml-4">Profile</router-link>
-      <router-link to="/champions" class="white ml-4">Champions</router-link>
-      <router-link to="/leagues" class="white ml-4">Leagues</router-link>
+      <router-link to="/" class=" mx-2">Home</router-link>
+      <router-link to="/profile" class=" mx-2">Profile</router-link>
+      <router-link to="/champions" class=" mx-2">Champions</router-link>
+      <router-link to="/leagues" class=" mx-2">Leagues</router-link>
       <!-- Check that the SDK client is not currently loading before accessing is methods -->
       <div v-if="!$auth.loading">
         <!-- show login when not authenticated -->
-        <button v-if="!$auth.isAuthenticated" @click="login">Log in</button>
+        <router-link
+          v-if="!$auth.isAuthenticated"
+          to="\"
+          class="mx-2"
+          @click="login"
+          >Log in</router-link
+        >
+        <router-link
+          v-if="$auth.isAuthenticated"
+          to="\"
+          class="mx-2"
+          @click="logout"
+          >Log Out</router-link
+        >
         <!-- show logout when authenticated -->
-        <button v-if="$auth.isAuthenticated" @click="logout">Log out</button>
       </div>
     </v-app-bar>
 
@@ -68,6 +80,10 @@ export default {
 
 .v-dialog.v-dialog--active {
   overflow-x: hidden;
+}
+
+a {
+  color: #fff !important;
 }
 
 * {
@@ -135,7 +151,7 @@ hr.alt {
   border: 0;
 }
 
-input {
-  background: #fff !important;
+.theme--light.v-divider {
+  border-color: rgba(181, 124, 255, 0.212) !important;
 }
 </style>

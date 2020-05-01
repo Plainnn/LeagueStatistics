@@ -1,7 +1,11 @@
 <template>
   <section class="userNameContainer">
     <div v-if="loading" class="loading-search text-center">
-      <v-progress-circular :size="100" color="primary" indeterminate></v-progress-circular>
+      <v-progress-circular
+        :size="100"
+        color="primary"
+        indeterminate
+      ></v-progress-circular>
     </div>
 
     <div v-if="this.data">
@@ -12,7 +16,9 @@
         data-aos-delay="1000"
       >
         <v-img
-          :src="require(`./img/${this.summmonerTier.toLowerCase()}_${this.summmonerRank.toLowerCase()}.png`)"
+          :src="
+            require(`./img/${this.summmonerTier.toLowerCase()}_${this.summmonerRank.toLowerCase()}.png`)
+          "
           lazy-src="./img/default.png"
           class="summoner-rank-img text-center"
         />
@@ -20,8 +26,12 @@
       <div class="userName">
         <div class="row">
           <div class="col-sm-12 sum-name text-center">
-            <h1 data-aos="fade-down" data-aos-delay="1300">{{ summonerName }}</h1>
-            <h2 data-aos="fade-down" data-aos-delay="1500">{{ summonerLeagueName }}</h2>
+            <h1 data-aos="fade-down" data-aos-delay="1300">
+              {{ summonerName }}
+            </h1>
+            <h2 data-aos="fade-down" data-aos-delay="1500">
+              {{ summonerLeagueName }}
+            </h2>
           </div>
           <div class="col-sm-12 sum-rank text-center">
             <h2>{{ `${summmonerTier} ${summmonerRank}` }}</h2>
@@ -32,7 +42,12 @@
         <div class="row">
           <div class="sol-sm-6 sumWinPercent">
             <div class="iCountUp">
-              <ICountUp :delay="delay" :endVal="endVal" :options="options" @ready="onReady" />
+              <ICountUp
+                :delay="delay"
+                :endVal="endVal"
+                :options="options"
+                @ready="onReady"
+              />
             </div>
             <h1 id="winPercent"></h1>
           </div>
@@ -95,9 +110,10 @@ export default {
     try {
       this.loading = true;
       const res = await axios.get(
-        `/api/v1/getrank/${this.$route.params.platform}/${this.$route.params.name}`
+        `/api/v1/getrank/${this.$route.params.platform}/${
+          this.$route.params.name
+        }`
       );
-      console.log(res);
       this.data = res;
 
       if (res.data.data.summmonerRank) {
