@@ -4,11 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --recursive --exit"
+    "test": "mocha --recursive --exit",
+    "start": "cd server && node index.js && cd client && npm run serve",
+    "dev": "nodemon server/index.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.19.2",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
     "cors": "^2.8.5",
@@ -16,11 +19,15 @@
     "expect.js": "^0.3.1",
     "express": "^4.17.1",
     "express-handlebars": "^3.1.0",
+    "express-jwt": "^5.3.1",
     "express-rate-limit": "^5.0.0",
     "handlebars": "^4.5.3",
+    "jwks-rsa": "^1.6.2",
     "kayn": "^0.10.2",
     "leagueapiwrapper": "^1.1.0",
     "mocha": "^6.2.2",
+    "mongoose": "^5.8.9",
+    "node-fetch": "^2.6.0",
     "node-simple-timer": "^0.1.1",
     "supertest": "^4.0.2"
   }

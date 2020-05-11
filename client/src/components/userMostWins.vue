@@ -1,11 +1,7 @@
 <template>
   <section class="userMostWinContainer">
     <div v-if="loading" class="loading-search text-center">
-      <v-progress-circular
-        :size="100"
-        color="primary"
-        indeterminate
-      ></v-progress-circular>
+      <v-progress-circular :size="100" color="primary" indeterminate></v-progress-circular>
     </div>
     <div v-if="error">
       <h1>An error has occoured</h1>
@@ -15,18 +11,24 @@
     <div v-else>
       <div class="userMostWins">
         <div class="row">
-          <div class="col-sm-3 sum-name">
-            <h1 style="text-align:left">image</h1>
+          <div class="col-sm-3 sum-name" data-aos="fade-right" data-aos-delay="750">
+            <div class="imgchamp">
+              <img
+                :src="
+                  require(`./champion/util/img/champs/nobkg/${wonChampion}.png`)
+                "
+              />
+            </div>
           </div>
-          <div v-if="profileData" class="col-sm-9 sum-rank">
+          <div v-if="data" class="col-sm-9 sum-rank" data-aos="fade-left" data-aos-delay="650">
             <div class="align">
-              <h1>{{ profileData.data.mostWins.champ }}</h1>
+              <h1>{{ data.data.mostWins.champ }}</h1>
             </div>
             <h2 class="champStats">Is Your Best Champion</h2>
             <hr class="alt" />
             <h5 class="champStats">
               {{
-                `You have won ${profileData.data.mostWins.wins} of your last 20 Games`
+              `You have won ${data.data.mostWins.wins} of your last 10 Games`
               }}
             </h5>
           </div>
@@ -37,10 +39,9 @@
 </template>
 
 <script>
-const axios = require('axios');
-
 export default {
   name: 'userMostWins',
+  props: ['data'],
   data() {
     return {
       loading: false,
@@ -48,14 +49,15 @@ export default {
       profileData: null
     };
   },
+  computed: {
+    wonChampion() {
+      return this.data ? this.data.data.mostWins.champ.replace(/ /g, '_') : '';
+    }
+  },
   beforeCreate() {},
   async created() {
     this.loading = true;
     try {
-      const res = await axios.get(
-        `/api/v1/${this.$route.params.platform}/${this.$route.params.name}`
-      );
-      this.profileData = res;
       this.loading = false;
     } catch (error) {
       this.error = error;
@@ -97,5 +99,27 @@ hr.alt {
   line-height: 49px;
   text-align: right;
   color: #c4b998;
+}
+
+.imgchamp {
+  height: 20px;
+  width: 250px;
+  margin-top: -50px;
+}
+
+.imgchamp {
+  height: 440px;
+  width: 250px;
+  margin-top: -100px;
+  display: block;
+}
+
+.imgchamp img {
+  object-fit: contain;
+  height: 500px;
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+  display: block;
+  margin-top: -50px;
 }
 </style>

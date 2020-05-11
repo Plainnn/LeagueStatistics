@@ -22,12 +22,21 @@
       </div>
 
       <v-spacer></v-spacer>
+      <router-link to="/" class="mx-2">Home</router-link>
+      <router-link to="/profile" class="mx-2">Profile</router-link>
+      <router-link to="/champions" class="mx-2">Champions</router-link>
+      <router-link to="/leagues" class="mx-2">Leagues</router-link>
+      <!-- Check that the SDK client is not currently loading before accessing is methods -->
+      <div v-if="!$auth.loading">
+        <!-- show login when not authenticated -->
+        <router-link v-if="!$auth.isAuthenticated" to="\" class="mx-2" @click="login">Log in</router-link>
+        <router-link v-if="$auth.isAuthenticated" to="\" class="mx-2" @click="logout">Log Out</router-link>
+        <!-- show logout when authenticated -->
+      </div>
     </v-app-bar>
 
     <v-content>
-      <div class="main-container">
-        <router-view />
-      </div>
+      <router-view />
     </v-content>
   </v-app>
 </template>
@@ -35,22 +44,49 @@
 <script>
 export default {
   name: 'App',
-
   data: () => ({
-    //
-  })
+    domain: null,
+    clientId: null
+  }),
+  methods: {
+    // Log the user in
+    login() {
+      this.$auth.loginWithRedirect();
+    },
+    // Log the user out
+    logout() {
+      this.$auth.logout({
+        returnTo: window.location.origin
+      });
+    }
+  }
 };
 </script>
 
 <style>
 @import url('https://fonts.googleapis.com/css?family=Lora:700&display=swap');
-.theme--light.v-application {
-  background: linear-gradient(
-      0deg,
-      rgba(21, 15, 52, 0.95),
-      rgba(21, 15, 52, 0.95)
-    ),
+
+.v-dialog.v-dialog--active {
+  overflow-x: hidden;
+}
+
+a {
+  color: #fff !important;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+#app {
+  background: linear-gradient(0deg, #150f34f2, rgba(21, 15, 52, 0.95)),
     url('./assets/image.png') !important;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 
 .main-container {
@@ -76,7 +112,8 @@ h1 {
 
 h1 {
   margin: 0em 0em 0em 0em;
-  background: linear-gradient(
+  color: #c4b998;
+  /* background: linear-gradient(
     #ffd046 0%,
     #a58f4e 12.16%,
     #f1c542 25.1%,
@@ -88,7 +125,7 @@ h1 {
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0px 3px 1px #000);
+  filter: drop-shadow(0px 3px 1px #000); */
 }
 
 hr {
@@ -101,5 +138,9 @@ hr.alt {
   background-image: linear-gradient(to right, #ffd14600, #ffd146);
   height: 2px;
   border: 0;
+}
+
+.theme--light.v-divider {
+  border-color: rgba(181, 124, 255, 0.212) !important;
 }
 </style>
