@@ -12,16 +12,14 @@ import VueApexCharts from 'vue-apexcharts';
 // Import the plugin here
 import { Auth0Plugin } from './auth';
 
-const domain = 'c';
-const clientId = '2ymZyMoDjB8G95O82zUE63018YLYx1yd';
-const audience = '/profile';
+import { domain, clientId, audience } from '../auth_config.json';
 // Install the authentication plugin here
 Vue.use(Auth0Plugin, {
   VueDraggable,
   VueApexCharts,
   domain,
   clientId,
-  audience, // NEW - configure the plugin with the audience value
+  audience,
   onRedirectCallback: appState => {
     router.push(
       appState && appState.targetUrl

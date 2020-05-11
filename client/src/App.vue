@@ -22,27 +22,15 @@
       </div>
 
       <v-spacer></v-spacer>
-      <router-link to="/" class=" mx-2">Home</router-link>
-      <router-link to="/profile" class=" mx-2">Profile</router-link>
-      <router-link to="/champions" class=" mx-2">Champions</router-link>
-      <router-link to="/leagues" class=" mx-2">Leagues</router-link>
+      <router-link to="/" class="mx-2">Home</router-link>
+      <router-link to="/profile" class="mx-2">Profile</router-link>
+      <router-link to="/champions" class="mx-2">Champions</router-link>
+      <router-link to="/leagues" class="mx-2">Leagues</router-link>
       <!-- Check that the SDK client is not currently loading before accessing is methods -->
       <div v-if="!$auth.loading">
         <!-- show login when not authenticated -->
-        <router-link
-          v-if="!$auth.isAuthenticated"
-          to="\"
-          class="mx-2"
-          @click="login"
-          >Log in</router-link
-        >
-        <router-link
-          v-if="$auth.isAuthenticated"
-          to="\"
-          class="mx-2"
-          @click="logout"
-          >Log Out</router-link
-        >
+        <router-link v-if="!$auth.isAuthenticated" to="\" class="mx-2" @click="login">Log in</router-link>
+        <router-link v-if="$auth.isAuthenticated" to="\" class="mx-2" @click="logout">Log Out</router-link>
         <!-- show logout when authenticated -->
       </div>
     </v-app-bar>
@@ -124,7 +112,8 @@ h1 {
 
 h1 {
   margin: 0em 0em 0em 0em;
-  background: linear-gradient(
+  color: #c4b998;
+  /* background: linear-gradient(
     #ffd046 0%,
     #a58f4e 12.16%,
     #f1c542 25.1%,
@@ -136,7 +125,7 @@ h1 {
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0px 3px 1px #000);
+  filter: drop-shadow(0px 3px 1px #000); */
 }
 
 hr {

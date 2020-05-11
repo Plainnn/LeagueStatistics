@@ -1,81 +1,141 @@
 <template>
-  <div v-if="data">
-    <apexchart
-      width="100%"
-      type="line"
-      :options="chartOptions"
-      :series="series"
-    ></apexchart>
+  <div class="mb-12">
+    <v-row justify="center" class="text-center">
+      <v-col cols="12">
+        <UserTimelineStats :stats="userStatsReturn" />
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="12" justify="center">
+        <v-btn type="submit" value="Submit" class="button" color="primary" @click="hideEvents">
+          <v-icon class="mr-2">mdi-account-search</v-icon>View Gold Timeline
+        </v-btn>
+      </v-col>
+    </v-row>
     <div v-if="data">
+      <apexchart
+        class="mt-12 apex-select"
+        width="100%"
+        type="line"
+        :options="chartOptions"
+        :series="series"
+      ></apexchart>
+      <div></div>
       <div
-        v-for="(event, index) in stackedPurchasedItems"
-        :key="index"
-        class="card"
+        v-if="showEvents"
+        class="data-contain"
+        style="position: absolute;
+                width: 70%;
+                top: 0px;
+                left: 15%;
+                overflow: auto;
+                height: 70vh;"
       >
+        <div class="vl" :style="`height: ${stackedPurchasedItems.length * 15}em`"></div>
         <div
-          v-for="(events, index) in event"
-          :key="index * 10"
-          class="item-purchased"
+          v-for="(event, index) in stackedPurchasedItems"
+          :key="index"
+          class="card timeline-card"
+          :style="{ 'left': (index % 2 === 0 ? 'auto' : '100px'), 'right': (index % 2 === 1 ? 'auto' : '100px') }"
         >
-          <div v-if="events.type == 'ITEM_PURCHASED'">
-            <div v-if="index == 0">
-              At {{ getTime(events.timestamp) }} You Purchased
-            </div>
-            <v-row>
-              <v-img
-                max-width="64px"
-                max-height="64px"
-                class="item-image"
-                :src="
-                  `https://ddragon.leagueoflegends.com/cdn/${versionNumber}/img/item/${
-                    events.itemId
-                  }.png`
-                "
-              ></v-img
-            ></v-row>
+          {{index}}
+          <h3>At {{ getTime(event[0].timestamp) }}</h3>
+          <div v-if="event[0].victimId == participantIdReturn">
+            <h2>You Died</h2>
           </div>
-
-          <!-- <div v-if="events.type == 'BUILDING_KILL'">
-              {{ events }}
-            </div> -->
-
-          <div v-if="events.type == 'SKILL_LEVEL_UP'">
-            <v-img
-              :src="
-                `https://cdn.communitydragon.org/latest/champion/${championIdReturn}/ability-icon/${
-                  skillsMatch[events.skillSlot]
-                }`
+          <div v-else>
+            <h2>You {{eventMatch[event[0].type]}}</h2>
+          </div>
+          <div v-for="(events, jndex) in event" :key="jndex * 10" class="d-inline-flex my-4">
+            <div>
+              <v-tooltip bottom v-if="events.itemId" max-width="350px">
+                <template v-slot:activator="{ on }">
+                  <v-img
+                    v-if="events.type == 'ITEM_PURCHASED'"
+                    max-width="64px"
+                    max-height="64px"
+                    class="item-image mr-4"
+                    dark
+                    v-on="on"
+                    :src="
+                `https://ddragon.leagueoflegends.com/cdn/${versionNumber}/img/item/${
+                  events.itemId
+                }.png`
               "
-              max-width="64px"
-              max-height="64px"
-              class="item-image"
-            ></v-img>
-          </div>
-
-          <div v-if="events.type == 'CHAMPION_KILL'">
-            <div v-if="events.victimId === participantIdReturn">
-              <v-img
-                :src="
-                  ` https://cdn.communitydragon.org/${versionNumber}/champion/${getEnemy(
-                    events.victimId
-                  )}/square`
-                "
-                max-width="64px"
-                max-height="64px"
-                class="item-image"
-              ></v-img>
+                  >
+                    <template v-slot:placeholder>
+                      <v-row class="fill-height ma-0" align="center" justify="center">
+                        <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+                      </v-row>
+                    </template>
+                  </v-img>
+                </template>
+                <span>
+                  <template>
+                    <p class="mt-2">{{itemNameReturn.data[events.itemId].name}}</p>
+                    <p v-html="itemNameReturn.data[events.itemId].plaintext"></p>
+                    <p v-html="itemNameReturn.data[events.itemId].description"></p>
+                  </template>
+                </span>
+              </v-tooltip>
             </div>
-            <div v-else>
-              <v-img
-                :src="
+            <div>
+              <v-tooltip bottom v-if="events.skillSlot" max-width="350px">
+                <template v-slot:activator="{ on }">
+                  <v-img
+                    v-if="events.type == 'SKILL_LEVEL_UP'"
+                    :src="
+                      `https://cdn.communitydragon.org/latest/champion/${championIdReturn}/ability-icon/${
+                        skillsMatch[events.skillSlot]
+                      }`
+                    "
+                    max-width="64px"
+                    max-height="64px"
+                    class="item-image mr-4"
+                    v-on="on"
+                  >
+                    <template v-slot:placeholder>
+                      <v-row class="fill-height ma-0" align="center" justify="center">
+                        <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+                      </v-row>
+                    </template>
+                  </v-img>
+                </template>
+                <span>
+                  <template>{{championAbilitiesReturn.spells[skillsMatch[events.skillSlot]]}}</template>
+                </span>
+              </v-tooltip>
+            </div>
+
+            <div v-if="events.type == 'CHAMPION_KILL'">
+              <div v-if="events.victimId == participantIdReturn">
+                <v-img
+                  :src="
+                  ` https://cdn.communitydragon.org/${versionNumber}/champion/${getEnemy(
+                    events.killerId
+                  )}/square`
+                "
+                  max-width="64px"
+                  max-height="64px"
+                  class="item-image participant-death mr-4"
+                ></v-img>
+              </div>
+              <div v-if="events.killerId == participantIdReturn">
+                <v-img
+                  :src="
                   ` https://cdn.communitydragon.org/${versionNumber}/champion/${getEnemy(
                     events.victimId
                   )}/square`
                 "
-                max-width="64px"
-                max-height="64px"
-                class="item-image"
-              ></v-img>
+                  max-width="64px"
+                  max-height="64px"
+                  class="item-image participant-kill mr-4"
+                ></v-img>
+              </div>
+            </div>
+            <div v-if="events.type == 'BUILDING_KILL'">
+              <h2>{{events.laneType}}</h2>
+              <h2>{{events.towerType}}</h2>
             </div>
           </div>
         </div>
@@ -86,23 +146,38 @@
 
 <script>
 import axios from 'axios';
+import UserTimelineStats from './UserTimelineStats';
 
 export default {
   name: 'UserMatchTimeline',
+  components: {
+    UserTimelineStats
+  },
   data() {
     return {
+      showEvents: true,
       data: null,
       championId: null,
+      itemJson: null,
+      dataTotalGold: null,
+      dataAbilities: null,
       skillsMatch: {
         '1': 'q',
         '2': 'w',
         '3': 'e',
         '4': 'r'
       },
+      eventMatch: {
+        SKILL_LEVEL_UP: 'Levelled Up',
+        ITEM_PURCHASED: 'Purchased',
+        CHAMPION_KILL: 'Killed',
+        BUILDING_KILL: 'Destroyed a '
+      },
       events: null,
       items: null,
       version: null,
       enemyData: null,
+      userStats: null,
       participantId: null,
       chartOptions: {
         show: true,
@@ -114,6 +189,16 @@ export default {
           height: 350,
           zoom: {
             enabled: true
+          },
+          yaxis: {
+            show: true,
+            showAlways: true,
+            showForNullSeries: true,
+            seriesName: undefined,
+            opposite: false,
+            reversed: false,
+            logarithmic: false,
+            tickAmount: 100
           },
           toolbar: {
             show: false
@@ -132,11 +217,6 @@ export default {
             }
           },
           xaxis: {
-            lines: {
-              show: false
-            }
-          },
-          yaxis: {
             lines: {
               show: false
             }
@@ -160,12 +240,26 @@ export default {
     const ver = await axios.get(
       'http://ddragon.leagueoflegends.com/api/versions.json'
     );
+    const items = await axios.get(
+      `http://ddragon.leagueoflegends.com/cdn/${ver.data[0]}/data/en_US/item.json`
+    );
+
+    const championDetailed = await axios.get(
+      `https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champions/${res.data.results[0].participantChampion}.json`
+    );
+
+    this.dataAbilities = championDetailed;
+
+    this.itemJson = items;
+
     this.version = ver.data;
     this.events = res.data.sortedEvents;
-    this.data = res.data.result;
+    this.data = res.data.resultCurrent;
+    this.userStats = res.data;
+    console.log(championDetailed);
+    this.dataTotalGold = res.data.resultTotal;
 
     this.participantId = res.data.results;
-    console.log(this.participantId);
 
     this.enemyData = res.data.results[0].enemy;
     this.championId = res.data;
@@ -175,8 +269,12 @@ export default {
 
     this.series = [
       {
-        name: 'Gold Earnt',
+        name: 'Current Gold',
         data: this.data
+      },
+      {
+        name: 'Total Gold',
+        data: this.dataTotalGold
       }
     ];
     this.chartOptions = {
@@ -199,6 +297,9 @@ export default {
   },
 
   methods: {
+    hideEvents() {
+      this.showEvents = !this.showEvents;
+    },
     getEnemy(participantId) {
       const participant = this.enemyData.find(
         p => p.participantId === participantId
@@ -233,22 +334,43 @@ export default {
     participantIdReturn() {
       return this.participantId ? this.participantId[0].participantId : '';
     },
+    userStatsReturn() {
+      return this.userStats ? this.participantId[0].participantStats : '';
+    },
     versionNumber() {
       return this.version ? this.version[0] : '';
     },
+    itemNameReturn() {
+      return this.itemJson ? this.itemJson.data : '';
+    },
+    championAbilitiesReturn() {
+      return this.dataAbilities ? this.dataAbilities.data : '';
+    },
     stackedPurchasedItems() {
       var last = 0;
+      var lastType;
+      console.log(this.events);
+      var filterEvents = this.events.filter(function(el) {
+        return (
+          el.type == 'ITEM_PURCHASED' ||
+          el.type == 'SKILL_LEVEL_UP' ||
+          el.type == 'CHAMPION_KILL' ||
+          el.type == 'BUILDING_KILL'
+        );
+      });
 
-      const groups = this.events.reduce((acc, item) => {
+      const groups = filterEvents.reduce((acc, item) => {
         //Get item timestamp
-        var { timestamp } = item;
-        //If new item is within 10 sec of old item,
+        var { timestamp, type } = item;
+        //If new item is within 5 sec of old item,
         //add to last group in accumulator,
         //otherwise add new group to accumulator
-        if (timestamp - last < 5000) acc[acc.length - 1].push(item);
+        if (timestamp - last < 5000 && type == lastType)
+          acc[acc.length - 1].push(item);
         else acc.push([item]);
 
         //Track this timestamp for next time
+        lastType = type;
         last = timestamp;
         //Return the accumulator
         return acc;
@@ -260,16 +382,12 @@ export default {
 </script>
 
 <style>
-.card {
-  padding: 50px;
-}
-
 .apexcharts-gridlines-horizontal line {
   display: none;
 }
 
 svg {
-  opacity: 0.3 !important;
+  opacity: 0.1 !important;
   transition: 0.25s ease-in-out;
 }
 
@@ -297,15 +415,57 @@ svg:hover {
   min-height: 64px;
 }
 
-.item-purchased {
-  display: inline-flex;
+.timeline-card {
+  color: #fff !important;
+  padding: 20px;
+  width: 25%;
+  position: relative;
+  /* background: transparent !important;
+  box-shadow: none; */
+
+  transition: 0.25s ease-in-out;
+}
+.theme--light.v-divider {
+  border-color: #ffd046 !important;
+  height: 100%;
+}
+.vl {
+  position: absolute;
+  left: 50%;
+  border: 0;
+  margin: 1em auto;
+  border-color: #ffd046 !important;
+  height: calc(100vh - 110px);
+  border-left: 4px solid;
 }
 
-.item-purchased div:first-child {
-  width: 100%;
+.timeline-card:nth-child(odd):hover,
+.timeline-card:nth-child(even):hover {
+  transition: 0.25s ease-in-out;
+  margin-top: 50px;
+  margin-bottom: 50px;
 }
 
-.item-purchased div:not(:first-child) {
-  flex: 1;
+.apex-select:hover {
+  z-index: 999;
+  opacity: 1;
+}
+
+.participant-kill {
+  outline: 33px solid rgba(63, 255, 56, 0.3) !important;
+  outline-offset: -33px;
+  overflow: hidden;
+  position: relative;
+  height: 64px;
+  width: 64px;
+}
+
+.participant-death {
+  outline: 33px solid rgba(255, 56, 56, 0.3) !important;
+  outline-offset: -33px;
+  overflow: hidden;
+  position: relative;
+  height: 64px;
+  width: 64px;
 }
 </style>

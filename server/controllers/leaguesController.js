@@ -44,8 +44,6 @@ exports.matchTimeline = async (req, res) => {
       (p) => p.participantId === participantId
     );
 
-    console.log(match.participants);
-
     let enemy = match.participants.map(({ participantId, championId }) => ({
       participantId,
       championId,
@@ -56,6 +54,7 @@ exports.matchTimeline = async (req, res) => {
     return {
       enemy,
       participantChampion: participant.championId,
+      participantStats: participant.stats,
       participantChampion,
       participantId,
     };
@@ -131,11 +130,13 @@ exports.matchTimeline = async (req, res) => {
         return a.timestamp - b.timestamp;
       });
 
-      var result = participantFrames.map((a) => a.currentGold);
+      var resultTotal = participantFrames.map((a) => a.totalGold);
+      var resultCurrent = participantFrames.map((a) => a.currentGold);
 
       res.json({
         results,
-        result,
+        resultTotal,
+        resultCurrent,
         sortedEvents,
       });
     } catch (error) {
@@ -168,8 +169,6 @@ exports.getCs = async (req, res) => {
     const participant = match.participants.find(
       (p) => p.participantId === participantId
     );
-
-    console.log(match);
 
     return {
       participant,

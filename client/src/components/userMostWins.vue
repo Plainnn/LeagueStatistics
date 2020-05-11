@@ -11,13 +11,16 @@
     <div v-else>
       <div class="userMostWins">
         <div class="row">
-          <div class="col-sm-3 sum-name">
-            <v-img
-              :src="require(`./champion/util/img/champs/nobkg/${wonChampion}.png`)"
-              class="summoner-champion-bw-img text-center"
-            />
+          <div class="col-sm-3 sum-name" data-aos="fade-right" data-aos-delay="750">
+            <div class="imgchamp">
+              <img
+                :src="
+                  require(`./champion/util/img/champs/nobkg/${wonChampion}.png`)
+                "
+              />
+            </div>
           </div>
-          <div v-if="data" class="col-sm-9 sum-rank">
+          <div v-if="data" class="col-sm-9 sum-rank" data-aos="fade-left" data-aos-delay="650">
             <div class="align">
               <h1>{{ data.data.mostWins.champ }}</h1>
             </div>
@@ -25,7 +28,7 @@
             <hr class="alt" />
             <h5 class="champStats">
               {{
-              `You have won ${data.data.mostWins.wins} of your last 20 Games`
+              `You have won ${data.data.mostWins.wins} of your last 10 Games`
               }}
             </h5>
           </div>
@@ -101,6 +104,22 @@ hr.alt {
 .imgchamp {
   height: 20px;
   width: 250px;
+  margin-top: -50px;
+}
+
+.imgchamp {
+  height: 440px;
+  width: 250px;
+  margin-top: -100px;
+  display: block;
+}
+
+.imgchamp img {
+  object-fit: contain;
+  height: 500px;
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+  display: block;
   margin-top: -50px;
 }
 </style>

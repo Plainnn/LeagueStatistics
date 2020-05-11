@@ -1,12 +1,8 @@
 <template>
-  <v-col cols="3">
+  <v-col cols="3" xs="12" lg="3" sm="12">
     <div v-if="this.data" class="card pa-4">
       <div class="champImg text-center pt-6">
-        <img
-          :src="championImage"
-          class="championImage"
-          @click="sendUrl(getId)"
-        />
+        <img :src="championImage" class="championImage" @click="sendUrl(getId)" />
       </div>
       <div class="championStat text-center pt-3">
         <h1>{{ this.data.championName }}</h1>

@@ -9,14 +9,14 @@
         >
           <template v-slot:placeholder>
             <v-row class="fill-height ma-0" align="center" justify="center">
-              <h2>{{quotePicker()}}</h2>
+              <h2>{{ quotePicker() }}</h2>
             </v-row>
           </template>
         </v-img>
         <div class="champ-name-info" elevation="12">
-          <h2 class="title">{{championTitle}}</h2>
-          <h1 class="name">{{championName}}</h1>
-          <h3 class="mb-8">{{championBlurb}}</h3>
+          <h2 class="title">{{ championTitle }}</h2>
+          <h1 class="name">{{ championName }}</h1>
+          <h3 class="mb-8">{{ championBlurb }}</h3>
           <hr />
         </div>
         <!-- <div v-for="(tags, index) in this.data.tags" :key="index">
@@ -24,21 +24,6 @@
         </div>-->
       </div>
     </div>
-    <!-- <div class="championImage pt-6">
-      <v-img
-        :src="championImage"
-        @click="sendUrl(getId)"
-        lazy-src="./img/question.png"
-        max-width="120"
-        max-height="120"
-      >
-        <template v-slot:placeholder>
-          <v-row class="fill-height ma-0" align="center" justify="center">
-            <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
-          </v-row>
-        </template>
-      </v-img>
-    </div>-->
   </div>
 </template>
 
@@ -67,12 +52,16 @@ export default {
     },
     championImage() {
       return this.data.id
-        ? `https://cdn.communitydragon.org/latest/champion/${this.data.id}/square`
+        ? `https://cdn.communitydragon.org/latest/champion/${
+            this.data.id
+          }/square`
         : '';
     },
     championSplashImage() {
       return this.data.id
-        ? `https://cdn.communitydragon.org/latest/champion/${this.data.id}/splash-art/centered`
+        ? `https://cdn.communitydragon.org/latest/champion/${
+            this.data.id
+          }/splash-art/centered`
         : '';
     }
   },

@@ -6,7 +6,9 @@
           <v-img
             dark
             v-on="on"
-            :src="`https://raw.communitydragon.org/latest/game/assets/characters/${url}`"
+            :src="
+              `https://raw.communitydragon.org/latest/game/assets/characters/${url}`
+            "
             lazy-src="./img/question.png"
             class="ability-img"
             max-width="64px"
@@ -14,23 +16,26 @@
           >
             <template v-slot:placeholder>
               <v-row class="fill-height ma-0" align="center" justify="center">
-                <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+                <v-progress-circular
+                  indeterminate
+                  color="grey lighten-5"
+                ></v-progress-circular>
               </v-row>
             </template>
           </v-img>
           <div class="text-center">
-            <p>{{spells.spellKey.toUpperCase()}}</p>
+            <p>{{ spells.spellKey.toUpperCase() }}</p>
           </div>
         </div>
       </template>
+
       <div class="pa-2">
-        <h3 class="py-2">{{spells.name}}</h3>
+        <h3 class="py-2">{{ spells.name }}</h3>
         <span v-html="spells.description"></span>
       </div>
     </v-tooltip>
   </div>
 </template>
-
 
 <script>
 /*eslint-disable */

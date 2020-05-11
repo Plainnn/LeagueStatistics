@@ -1,6 +1,6 @@
 <template>
   <v-col cols="3">
-    <div class="card mx-6 pa-6 pt-12" elevation="12c">
+    <div class="card mx-6 pa-6 pt-12" elevation="12">
       <v-row justify-center class="text-center">
         <div class="champImgContainer">
           <div class="pa-2 mt-1">

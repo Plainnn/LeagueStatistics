@@ -1,11 +1,7 @@
 <template>
-  <section class="userNameContainer">
+  <section class="userNameContainer mb-12">
     <div v-if="loading" class="loading-search text-center">
-      <v-progress-circular
-        :size="100"
-        color="primary"
-        indeterminate
-      ></v-progress-circular>
+      <v-progress-circular :size="100" color="primary" indeterminate></v-progress-circular>
     </div>
 
     <div v-if="this.data">
@@ -26,12 +22,8 @@
       <div class="userName">
         <div class="row">
           <div class="col-sm-12 sum-name text-center">
-            <h1 data-aos="fade-down" data-aos-delay="1300">
-              {{ summonerName }}
-            </h1>
-            <h2 data-aos="fade-down" data-aos-delay="1500">
-              {{ summonerLeagueName }}
-            </h2>
+            <h1 data-aos="fade-down" data-aos-delay="1300">{{ summonerName }}</h1>
+            <h2 data-aos="fade-down" data-aos-delay="1500">{{ summonerLeagueName }}</h2>
           </div>
           <div class="col-sm-12 sum-rank text-center">
             <h2>{{ `${summmonerTier} ${summmonerRank}` }}</h2>
@@ -39,19 +31,18 @@
           </div>
         </div>
         <hr />
-        <div class="row">
+
+        <v-row class="row text-center" justify="center">
           <div class="sol-sm-6 sumWinPercent">
             <div class="iCountUp">
-              <ICountUp
-                :delay="delay"
-                :endVal="endVal"
-                :options="options"
-                @ready="onReady"
-              />
+              <ICountUp :delay="delay" :endVal="endVal" :options="options" @ready="onReady" />
             </div>
             <h1 id="winPercent"></h1>
           </div>
-        </div>
+        </v-row>
+        <v-row class="text-center my-12" justify="center">
+          <h1 class="text-center my-6">Win Rate</h1>
+        </v-row>
       </div>
     </div>
   </section>
@@ -110,9 +101,7 @@ export default {
     try {
       this.loading = true;
       const res = await axios.get(
-        `/api/v1/getrank/${this.$route.params.platform}/${
-          this.$route.params.name
-        }`
+        `/api/v1/getrank/${this.$route.params.platform}/${this.$route.params.name}`
       );
       this.data = res;
 

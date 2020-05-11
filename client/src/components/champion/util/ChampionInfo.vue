@@ -11,8 +11,7 @@
             :width="10"
             value="attack"
             color="red"
-            >{{ attack / 10 }}</v-progress-circular
-          >
+          >{{ attack / 10 }}</v-progress-circular>
         </div>
         <div>
           <h2>Defence</h2>
@@ -23,8 +22,7 @@
             :width="10"
             value="defense"
             color="green accent-4"
-            >{{ defense / 10 }}</v-progress-circular
-          >
+          >{{ defense / 10 }}</v-progress-circular>
         </div>
         <div>
           <h2>Magic</h2>
@@ -35,8 +33,7 @@
             :width="10"
             value="magic"
             color="blue accent-4"
-            >{{ magic / 10 }}</v-progress-circular
-          >
+          >{{ magic / 10 }}</v-progress-circular>
         </div>
         <div>
           <h2>Difficulty</h2>
@@ -47,29 +44,27 @@
             :width="10"
             value="difficulty"
             color="amber accent-4"
-            >{{ difficulty / 10 }}</v-progress-circular
-          >
+          >{{ difficulty / 10 }}</v-progress-circular>
         </div>
-      </div></v-row
-    >
+      </div>
+    </v-row>
     <v-row justify="center" v-if="this.data">
       <v-tooltip bottom class="pa-6">
         <template v-slot:activator="{ on }">
           <v-btn @click="onClick()" class="button" color="green" v-on="on">
-            <v-icon>mdi-download</v-icon>Download {{ names }}'s Info
+            <v-icon>mdi-download</v-icon>
+            Download {{ names }}'s Info
           </v-btn>
         </template>
         <v-row class="my-2 pa-2">
           <span>This will download a CSV file</span>
         </v-row>
         <v-row class="pa-2 my-1">
-          <span class="font-weight-bold"
-            >Learn more
-            <a href="https://en.wikipedia.org/wiki/Comma-separated_values"
-              >here</a
-            ></span
-          ></v-row
-        >
+          <span class="font-weight-bold">
+            Learn more
+            <a href="https://en.wikipedia.org/wiki/Comma-separated_values">here</a>
+          </span>
+        </v-row>
       </v-tooltip>
     </v-row>
   </div>
@@ -148,5 +143,9 @@ export default {
 
 h2 {
   margin: 0.5em 0em 1em 0;
+}
+
+svg {
+  opacity: 1 !important;
 }
 </style>

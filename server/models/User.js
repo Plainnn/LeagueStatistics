@@ -4,27 +4,27 @@ const userSchema = new mongoose.Schema({
   uniqueid: {
     type: String,
     required: true,
-    trim: true
+    trim: true,
   },
   summonerNames: [
     {
       summonerName: {
         type: String,
-        trim: true
+        trim: true,
       },
       region: {
         type: String,
         trim: true,
-        default: 'euw'
-      }
-    }
+        default: 'euw',
+      },
+    },
   ],
   friendNames: [
     {
       userName: String,
-      region: String
-    }
-  ]
+      region: String,
+    },
+  ],
 });
 
 module.exports = User = mongoose.model('User', userSchema);

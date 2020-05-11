@@ -10,7 +10,7 @@
     </div>
     <div class="userMostLoss mb-12" v-if="data">
       <div class="row">
-        <div class="col-sm-9 sum-name">
+        <div class="col-sm-9 sum-name" data-aos="fade-right" data-aos-delay="200">
           <div class="align">
             <h1>{{ data.data.mostLosses.champ }}</h1>
           </div>
@@ -18,14 +18,20 @@
           <hr />
           <h5 class="champStats">
             {{
-            `You have lost ${data.data.mostLosses.losses} of your last 20 Games`
+            `You have lost ${
+            data.data.mostLosses.losses
+            } of your last 10 Games`
             }}
           </h5>
         </div>
 
-        <div class="col-sm-3 sum-rank">
+        <div class="col-sm-3 sum-rank" data-aos="fade-right" data-aos-delay="200">
           <div class="imgchamp">
-            <img :src="require(`./champion/util/img/champs/nobkg/${(lostChampion)}.png`)" />
+            <img
+              :src="
+                require(`./champion/util/img/champs/nobkg/${lostChampion}.png`)
+              "
+            />
           </div>
         </div>
       </div>

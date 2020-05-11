@@ -41,6 +41,8 @@ exports.getWinLoss = async (req, res) => {
       (p) => p.participantId === participantId
     );
 
+    // console.log(participant.timeline.lane);
+
     const champion = championIdMap.data[participant.championId];
 
     return {
@@ -53,6 +55,7 @@ exports.getWinLoss = async (req, res) => {
       championId: champion.id,
       championKey: champion.key,
       creepScore: participant.stats.totalMinionsKilled,
+      lanePlayed: participant.timeline.lane,
     };
   };
 
@@ -76,11 +79,12 @@ exports.getWinLoss = async (req, res) => {
       // `processor` is a helper function to make the subsequent `map` cleaner.
       const processor = (match) => processMatch(championIdMap, id, match);
       const results = await Promise.all(matchDtos.map(processor));
-
+      // Add All Creepscores
       const cs = results.reduce((a, b) => ({
         creepScore: a.creepScore + b.creepScore,
       }));
 
+      //Reduce Results Array, adding wins and losses to the accumlator finally returning the array.
       const winRate = results.reduce((acc, cur) => {
         let champion = cur['championName'];
         let won = cur['didWin'] === true;
@@ -115,12 +119,15 @@ exports.getWinLoss = async (req, res) => {
         }, {});
       };
 
+      //Group Wins
       const copy = results.filter((val) => val.didWin == true);
       let grouped = Object.entries(groupBy(copy, 'championName'));
 
+      //Group Losses
       const copyLoss = results.filter((val) => val.didWin == false);
       let groupedLoss = Object.entries(groupBy(copyLoss, 'championName'));
 
+      //Create Win Object
       const wins = Object.keys(grouped).map((el) => {
         return {
           champ: grouped[el][0],
@@ -128,6 +135,7 @@ exports.getWinLoss = async (req, res) => {
         };
       });
 
+      //Reduce who has the most wins, repeat for losses
       const mostWins = wins.reduce((champ, game) =>
         champ.wins > game.wins ? champ : game
       );
@@ -152,10 +160,17 @@ exports.getWinLoss = async (req, res) => {
     } catch (error) {
       if (error.statusCode == 404) {
         res.status(404).json({
+          message: 'User Not Found',
+          error,
+        });
+      } else if (error.statusCode == 500) {
+        res.status(500).json({
+          message: 'Internal Server Error',
           error,
         });
       } else {
         res.status(400).json({
+          message: 'Bad Request - Check API key',
           error,
         });
       }

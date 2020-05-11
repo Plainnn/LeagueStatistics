@@ -1,11 +1,17 @@
 <template>
   <div>
     <div v-if="loading" class="loading-search text-center">
-      <v-progress-circular :size="100" color="primary" indeterminate></v-progress-circular>
+      <v-progress-circular
+        :size="100"
+        color="primary"
+        indeterminate
+      ></v-progress-circular>
     </div>
     <v-row class="text-center my-12" justify="center">
       <hr />
-      <h1 class="text-center my-6">{{this.$route.params.name}}'s Champion Mastery</h1>
+      <h1 class="text-center my-6">
+        {{ this.$route.params.name }}'s Champion Mastery
+      </h1>
       <hr />
     </v-row>
     <v-row>
@@ -43,7 +49,9 @@ export default {
     /*eslint-disable */
     this.loading = true;
     const res = await axios.get(
-      `/api/v1/getmastery/${this.$route.params.platform}/${this.$route.params.name}`
+      `/api/v1/getmastery/${this.$route.params.platform}/${
+        this.$route.params.name
+      }`
     );
 
     this.resData = res.data.data;

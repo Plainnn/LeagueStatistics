@@ -80,7 +80,7 @@ exports.getPercent = async (req, res) => {
       // `processor` is a helper function to make the subsequent `map` cleaner.
       const processor = (match) => processMatch(championIdMap, id, match);
       const results = await Promise.all(matchDtos.map(processor));
-      res.json({ results });
+      console.log(results);
       let data = [];
 
       const groupBy = (xs, key) => {

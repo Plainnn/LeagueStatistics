@@ -1,11 +1,7 @@
 <template>
   <div>
     <div v-if="loading" class="loading-search text-center">
-      <v-progress-circular
-        :size="100"
-        color="primary"
-        indeterminate
-      ></v-progress-circular>
+      <v-progress-circular :size="100" color="primary" indeterminate></v-progress-circular>
     </div>
     <v-container v-if="data">
       <form v-on:submit.prevent="getData" class="d-flex">
@@ -20,11 +16,7 @@
           <option value="na">NA</option>
           <option value="kr">KR</option>
         </select>
-        <select
-          class="league-dropdown px-4 ml-12"
-          v-model="league"
-          @change="getData()"
-        >
+        <select class="league-dropdown px-4 ml-12" v-model="league" @change="getData()">
           <option selected value="challenger">Challenger</option>
           <option value="grandmaster">Grandmaster</option>
           <option value="master">Master</option>
@@ -36,11 +28,7 @@
           <option value="iron">Iron</option>
         </select>
 
-        <select
-          class="rank-dropdown px-4 ml-12"
-          v-model="rank"
-          @change="getData()"
-        >
+        <select class="rank-dropdown px-4 ml-12" v-model="rank" @change="getData()">
           <option selected value="I">I</option>
           <option value="II" :disabled="rankDisabled">II</option>
           <option value="III" :disabled="rankDisabled">III</option>
@@ -68,55 +56,47 @@
               lg="12"
             >
               <v-card class="card">
-                <v-card-title class="">
+                <v-card-title class>
                   <div class="d-flex align-center pt-4">
-                    <div class="mx-6 subheading  font-weight-bold">
+                    <div class="mx-6 subheading font-weight-bold">
                       <p>{{ index + 1 }}</p>
                     </div>
                     <div class="mx-6">
                       <p>{{ item.summonerName }}</p>
                     </div>
                     <div class="mx-6">
-                      <label
-                        >Wins
-                        <p>{{ item.wins }}</p></label
-                      >
+                      <label>
+                        Wins
+                        <p>{{ item.wins }}</p>
+                      </label>
                     </div>
                     <div class="mx-6">
-                      <label
-                        >losses
-                        <p>{{ item.losses }}</p></label
-                      >
+                      <label>
+                        losses
+                        <p>{{ item.losses }}</p>
+                      </label>
                     </div>
                     <div class="mx-6">
-                      <label
-                        >LP
-                        <p>{{ item.leaguePoints }}</p></label
-                      >
+                      <label>
+                        LP
+                        <p>{{ item.leaguePoints }}</p>
+                      </label>
                     </div>
                     <div v-if="item.veteran">
                       <v-tooltip bottom>
                         <template v-slot:activator="{ on }">
-                          <v-img
-                            src="./img/veteran.png"
-                            class="veteran-status"
-                            v-on="on"
-                          />
+                          <v-img src="./img/veteran.png" class="veteran-status" v-on="on" />
                         </template>
-                        <span
-                          >This user has played over 100 games in this
-                          league.</span
-                        >
+                        <span>
+                          This user has played over 100 games in this
+                          league.
+                        </span>
                       </v-tooltip>
                     </div>
                     <div v-if="item.hotStreak">
                       <v-tooltip bottom>
                         <template v-slot:activator="{ on }">
-                          <v-img
-                            src="./img/hotstreak.png"
-                            v-on="on"
-                            class="hotstreak-status"
-                          />
+                          <v-img src="./img/hotstreak.png" v-on="on" class="hotstreak-status" />
                         </template>
                         <span>This user has won 3 or more games in a row.</span>
                       </v-tooltip>
@@ -153,28 +133,11 @@
 
             <v-spacer></v-spacer>
 
-            <span
-              class="mr-4
-            grey--text"
-            >
-              Page {{ page }} of {{ numberOfPages }}
-            </span>
-            <v-btn
-              fab
-              dark
-              color="blue darken-3"
-              class="mr-1"
-              @click="formerPage"
-            >
+            <span class="mr-4 grey--text">Page {{ page }} of {{ numberOfPages }}</span>
+            <v-btn fab dark color="blue darken-3" class="mr-1" @click="formerPage">
               <v-icon>mdi-chevron-left</v-icon>
             </v-btn>
-            <v-btn
-              fab
-              dark
-              color="blue darken-3"
-              class="ml-1"
-              @click="nextPage"
-            >
+            <v-btn fab dark color="blue darken-3" class="ml-1" @click="nextPage">
               <v-icon>mdi-chevron-right</v-icon>
             </v-btn>
           </v-row>
@@ -229,6 +192,13 @@ export default {
       this.itemsPerPage = number;
     },
     async getData() {
+      if (
+        this.league == 'challenger' ||
+        this.league == 'grandmaster' ||
+        this.league == 'master'
+      ) {
+        this.rank = 'I';
+      }
       this.loading = true;
       this.data = null;
       /*eslint-disable */

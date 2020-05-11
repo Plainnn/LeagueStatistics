@@ -10,7 +10,7 @@
       </v-toolbar>
     </v-row>
     <v-row fluid justify="center">
-      <v-col class="card ma-6" cols="2" v-for="index in filteredHeroes" :key="index.key">
+      <v-col class="card ma-6" cols="2" v-for="index in filteredChampions" :key="index.key">
         <div class="d-flex" @click="sendUrl(index.key, index.id)">
           <div>
             <v-img
@@ -54,27 +54,35 @@ export default {
     };
   },
   async mounted() {
+    //Get List of Champions
     const res = await axios(
       'http://ddragon.leagueoflegends.com/cdn/10.8.1/data/en_US/champion.json'
     );
+    //Store list of champions in variable for use in the filteredChampions computed
+    //property
     this.data = res.data.data;
   },
   computed: {
-    filteredHeroes() {
+    filteredChampions() {
+      //Get search string and capitalise first letter for easier searchiing 
       if (
         this.searchText.charAt(0).toUpperCase() + this.searchText.slice(1) ===
         ''
       ) {
         return this.data;
       } else {
+        //Search Object keys for value in the search box, once again 
+        // capitalising letter for easier use
         return Object.keys(this.data).reduce((acc, val) => {
           if (
             val.indexOf(
               this.searchText.charAt(0).toUpperCase() + this.searchText.slice(1)
             ) !== -1
           ) {
+            // Store returned, matching value in accumulator
             acc[val] = this.data[val];
           }
+          //Return accumualator to filteredChampions computer property
           return acc;
         }, {});
       }
