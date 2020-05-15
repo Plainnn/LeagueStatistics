@@ -11,7 +11,7 @@
     <div v-else>
       <div class="userMostWins">
         <div class="row">
-          <div class="col-sm-3 sum-name" data-aos="fade-right" data-aos-delay="750">
+          <div class="col-lg-3 col-sm-12 sum-name" data-aos="fade-right" data-aos-delay="750">
             <div class="imgchamp">
               <img
                 :src="
@@ -20,7 +20,7 @@
               />
             </div>
           </div>
-          <div v-if="data" class="col-sm-9 sum-rank" data-aos="fade-left" data-aos-delay="650">
+          <div v-if="data" class="col-lg-9 col-sm-12 sum-rank" data-aos="fade-left" data-aos-delay="650">
             <div class="align">
               <h1>{{ data.data.mostWins.champ }}</h1>
             </div>
@@ -122,4 +122,11 @@ hr.alt {
   display: block;
   margin-top: -50px;
 }
+
+@media screen and (max-width: 39.9375em) {
+  .imgchamp img {
+    margin-top: 0;
+  }
+}
+
 </style>

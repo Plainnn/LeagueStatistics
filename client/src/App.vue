@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar app color="primary" dark>
+    <!-- <v-app-bar app color="primary" dark>
       <div class="d-flex align-center">
         <v-img
           alt="Vuetify Logo"
@@ -26,35 +26,100 @@
       <router-link to="/profile" class="mx-2">Profile</router-link>
       <router-link to="/champions" class="mx-2">Champions</router-link>
       <router-link to="/leagues" class="mx-2">Leagues</router-link>
-      <!-- Check that the SDK client is not currently loading before accessing is methods -->
       <div v-if="!$auth.loading">
-        <!-- show login when not authenticated -->
-        <router-link v-if="!$auth.isAuthenticated" to="\" class="mx-2" @click="login">Log in</router-link>
-        <router-link v-if="$auth.isAuthenticated" to="\" class="mx-2" @click="logout">Log Out</router-link>
-        <!-- show logout when authenticated -->
+            <button class="button" v-if="!$auth.isAuthenticated" @click="login">Log in</button>
+            <button class="button" v-if="$auth.isAuthenticated" @click="logout">Log out</button>
       </div>
+    </v-app-bar> -->
+
+  <v-app-bar
+      :collapse="!collapseOnScroll"
+      :collapse-on-scroll="collapseOnScroll"
+      absolute
+      color="primary"
+      dark
+      scroll-target="#routers"
+      class
+    >
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer" class=".d-flex .d-md-none .d-lg-none"></v-app-bar-nav-icon>
+
+
+      <v-spacer></v-spacer>
+      <router-link to="/" class="mx-2">Home</router-link>
+      <router-link to="/profile" class="mx-2">Profile</router-link>
+      <router-link to="/champions" class="mx-2">Champions</router-link>
+      <router-link to="/leagues" class="mx-2">Leagues</router-link>
+      <div v-if="!$auth.loading">
+            <button class="button" v-if="!$auth.isAuthenticated" @click="login">Log in</button>
+            <button class="button" v-if="$auth.isAuthenticated" @click="logout">Log out</button>
+      </div>
+ 
     </v-app-bar>
+   
+
+
+    <v-navigation-drawer
+      v-model="drawer"
+      absolute
+      temporary
+      color="primary"
+    >
+ 
+
+
+      <v-list >
+        <v-list-item>
+          <router-link to="/champions" class="mx-2">Champions</router-link>
+        </v-list-item>
+        <v-list-item>
+            <router-link to="/leagues" class="mx-2">Leagues</router-link>
+        </v-list-item>
+        <v-list-item v-if="!$auth.loading">
+              <button class="button" v-if="!$auth.isAuthenticated" @click="login">Log in</button>
+              <button class="button" v-if="$auth.isAuthenticated" @click="logout">Log out</button>
+        </v-list-item>
+        <v-list-item>
+          <router-link to="/profile" class="mx-2">Profile</router-link>
+        </v-list-item>
+        <v-list-item>
+          <router-link to="/" class="mx-2">Home</router-link>
+        </v-list-item>
+
+      </v-list>
+    </v-navigation-drawer>
 
     <v-content>
-      <router-view />
+      <router-view id="routers"/>
     </v-content>
   </v-app>
 </template>
 
 <script>
+
+
 export default {
   name: 'App',
   data: () => ({
     domain: null,
-    clientId: null
+    drawer: null,
+    clientId: null,
+          collapseOnScroll: true,
+
   }),
   methods: {
+    /*eslint-disable */
     // Log the user in
     login() {
+      localStorage.removeItem('access_token')
+        localStorage.removeItem('id_token')
+        localStorage.removeItem('expires_at')
+        localStorage.removeItem('user')
+
       this.$auth.loginWithRedirect();
     },
     // Log the user out
     logout() {
+      console.log('logged out');
       this.$auth.logout({
         returnTo: window.location.origin
       });
@@ -82,12 +147,16 @@ a {
 
 #app {
   background: linear-gradient(0deg, #150f34f2, rgba(21, 15, 52, 0.95)),
-    url('./assets/image.png') !important;
+    url('./assets/image.png') no-repeat center center fixed !important;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+background-repeat:no-repeat;
+
 }
+
+
 
 .main-container {
   width: 75%;
@@ -110,22 +179,36 @@ h1 {
   font-size: 350%;
 }
 
-h1 {
+.championImage,
+.championImageMastery {
+  cursor: pointer;
+
+}
+
+@media screen and (max-width: 39.9375em) {
+  h1 {
+  font-size: 100%;
+}
+
+.main-container {
+  width: 90%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.imgchamp {
+  margin-top: 5vw;
+}
+
+
+}
+
+
+h1,h2,h3  {
   margin: 0em 0em 0em 0em;
   color: #c4b998;
-  /* background: linear-gradient(
-    #ffd046 0%,
-    #a58f4e 12.16%,
-    #f1c542 25.1%,
-    #be9b34 39.76%,
-    #d3ac3a 51.03%,
-    #facc45 71.54%,
-    #806823 100%
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0px 3px 1px #000); */
 }
 
 hr {

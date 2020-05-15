@@ -87,9 +87,10 @@ export default {
       });
 
       if (postMsg.data.users.summonerNames.length > 0) {
-        this.data = postMsg.data.users.summonerNames;
+        this.data = postMsg.data.users.summonerNames;c
         this.hasName = true;
       } else {
+        this.isHidden = true;
         this.hasName = false;
       }
     } catch (error) {

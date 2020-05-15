@@ -72,8 +72,6 @@ export default {
     }
   },
   mounted() {
-    /*eslint-disable */
-    console.log(this.data);
   }
 };
 </script>
@@ -87,7 +85,7 @@ export default {
 
 .champCard {
   display: flex;
-  padding: 5em;
+  padding: 5vw;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -163,4 +161,104 @@ hr {
   border: 0;
   margin: 1em auto;
 }
+
+/* Small only */
+@media screen and (max-width: 39.9375em) {
+  .champCard div {
+  align-items: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.champCard {
+  display: flex;
+  padding: 5vw;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+.championName {
+  flex: 1;
+  text-align: center;
+}
+
+.championBlurb {
+  flex: 4;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+''.championImage {
+  width: 120px;
+  height: auto;
+}
+
+.champ-name-info {
+  background: #150f3447;
+  width: 100%;
+  margin: -20em auto 0 auto;
+  padding: 2em;
+  border-radius: 25px;
+  position: relative;
+}
+
+.champ-first h2.title {
+  text-transform: uppercase;
+}
+.champ-first h1.name {
+  font-size: 15vw;
+  margin: 0em;
+  padding: -20px;
+}
+
+.champ-splash-image {
+  mask-image: gradient(
+    linear,
+    left top,
+    left bottom,
+    color-stop(0, rgba(0, 0, 0, 1)),
+    color-stop(0.35, rgba(0, 0, 0, 1)),
+    color-stop(0.4, rgba(0, 0, 0, 0.5)),
+    color-stop(0.5, rgba(0, 0, 0, 0)),
+    color-stop(0.6, rgba(0, 0, 0, 0)),
+    color-stop(1, rgba(0, 0, 0, 0))
+  );
+  -webkit-mask-image: -webkit-gradient(
+    linear,
+    right top,
+    right bottom,
+    color-stop(0, rgba(0, 0, 0, 1)),
+    color-stop(0.35, rgba(0, 0, 0, 1)),
+    color-stop(0.8, rgba(0, 0, 0, 0)),
+    color-stop(1, rgba(0, 0, 0, 0))
+  );
+  z-index: 1;
+  height: 717px;
+  width: 1215px;
+  border-radius: 25px 25px 0px 0px;
+  margin: 0 auto;
+}
+
+hr {
+  background-image: linear-gradient(to left, #ffd14600, #ffd146, #ffd14600);
+  height: 2px;
+  border: 0;
+  margin: 1em auto;
+}
+}
+
+/* Medium and up */
+@media screen and (min-width: 40em) {}
+
+/* Medium only */
+@media screen and (min-width: 40em) and (max-width: 63.9375em) {}
+
+/* Large and up */
+@media screen and (min-width: 64em) {}
+
+/* Large only */
+@media screen and (min-width: 64em) and (max-width: 74.9375em) {}
 </style>

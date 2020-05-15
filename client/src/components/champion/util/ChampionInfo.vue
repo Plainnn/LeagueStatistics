@@ -148,4 +148,19 @@ h2 {
 svg {
   opacity: 1 !important;
 }
+
+@media screen and (max-width: 39.9375em) {
+  .info-flex-container div {
+  margin: 0em;
+}
+
+.v-progress-circular {
+  margin: 0em;
+}
+
+h2 {
+  margin: 0;
+}
+}
+
 </style>

@@ -47,12 +47,12 @@
         <div v-if="(data) < topRankPlayers">
           <h1>{{ (data )}} CS</h1>
           <h1>Is Your Latest CS Score</h1>
-          <h1>This is Lower Than The {{this.league}} {{this.rank}} Average of {{ topRankPlayers }}</h1>
+          <h1>This is <span class="lower">Lower</span> Than The {{this.league}} {{this.rank}} Average of {{ topRankPlayers }}</h1>
         </div>
         <div v-if="(data) > topRankPlayers">
           <h1>{{ (data )}} CS</h1>
           <h1>Is Your Latest CS Score</h1>
-          <h2>This is Higher Than The {{this.league}} {{this.rank}} Average of {{ topRankPlayers }}</h2>
+          <h2>This is <span class="higher">Higher</span> Than The {{this.league}} {{this.rank}} Average of {{ topRankPlayers }}</h2>
         </div>
       </v-col>
       <v-col cols="2">
@@ -92,15 +92,12 @@ export default {
           const apiCall = await axios.get(
             `/api/v1/getcs/${this.region}/${summonerName}`
           );
-          console.log(this.region);
-          console.log(apiCall.data.cs.creepScore);
           return apiCall.data.cs.creepScore;
         })
       ).then(response => {
         this.topRankPlayers = +parseInt(response);
         return this.topRankPlayers;
       });
-      console.log(topRankCs);
       this.loading = false;
     }
   },
@@ -117,7 +114,6 @@ export default {
     );
 
     this.data = url.data.cs.creepScore;
-    console.log(this.data);
 
     const champion = await axios.get(
       `/api/v1/leagues/getTopNames/${this.region}/${this.league}/${this.rank}/1`
@@ -142,4 +138,25 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+h2 {
+  color: #c4b998;
+}
+
+.lower {
+  color: red;
+}
+
+.higher {
+  color: green;
+}
+
+@media screen and (max-width: 39.9375em) {
+  h1,h3,h3,h4,h5 {
+    text-align:center;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+}
+
+</style>

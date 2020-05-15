@@ -10,7 +10,7 @@
       </v-toolbar>
     </v-row>
     <v-row fluid justify="center">
-      <v-col class="card ma-6" cols="2" v-for="index in filteredChampions" :key="index.key">
+      <v-col class="card ma-6" lg="2" sm="12" v-for="index in filteredChampions" :key="index.key">
         <div class="d-flex" @click="sendUrl(index.key, index.id)">
           <div>
             <v-img
@@ -56,7 +56,7 @@ export default {
   async mounted() {
     //Get List of Champions
     const res = await axios(
-      'http://ddragon.leagueoflegends.com/cdn/10.8.1/data/en_US/champion.json'
+      'https://ddragon.leagueoflegends.com/cdn/10.8.1/data/en_US/champion.json'
     );
     //Store list of champions in variable for use in the filteredChampions computed
     //property

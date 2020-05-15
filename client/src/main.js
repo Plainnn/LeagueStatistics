@@ -13,6 +13,7 @@ import VueApexCharts from 'vue-apexcharts';
 import { Auth0Plugin } from './auth';
 
 import { domain, clientId, audience } from '../auth_config.json';
+
 // Install the authentication plugin here
 Vue.use(Auth0Plugin, {
   VueDraggable,
@@ -33,7 +34,7 @@ Vue.component('apexchart', VueApexCharts);
 
 Vue.config.productionTip = false;
 Vue.prototype.$http = axios;
-Vue.prototype.$http.defaults.baseURL = 'http://localhost:3000/';
+// Vue.prototype.$http.defaults.baseURL = 'http://localhost:3000/';
 
 new Vue({
   created() {

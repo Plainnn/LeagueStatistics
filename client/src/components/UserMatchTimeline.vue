@@ -1,18 +1,17 @@
 <template>
   <div class="mb-12">
     <v-row justify="center" class="text-center">
-      <v-col cols="12">
-        <UserTimelineStats :stats="userStatsReturn" />
+      <v-col sm="12" lg="12">
+        <UserTimelineStats :stats="userStatsReturn" :champ="dataAbilities"/>
       </v-col>
-    </v-row>
-    <v-row>
-      <v-col cols="12" justify="center">
+
+      <v-col sm="12" lg="12" justify="center">
         <v-btn type="submit" value="Submit" class="button" color="primary" @click="hideEvents">
           <v-icon class="mr-2">mdi-account-search</v-icon>View Gold Timeline
         </v-btn>
       </v-col>
     </v-row>
-    <div v-if="data">
+      <div v-if="data">
       <apexchart
         class="mt-12 apex-select"
         width="100%"
@@ -21,15 +20,12 @@
         :series="series"
       ></apexchart>
       <div></div>
+      {{stackItems}}
       <div
         v-if="showEvents"
         class="data-contain"
         style="position: absolute;
-                width: 70%;
-                top: 0px;
-                left: 15%;
-                overflow: auto;
-                height: 70vh;"
+                top: 0px;"
       >
         <div class="vl" :style="`height: ${stackedPurchasedItems.length * 15}em`"></div>
         <div
@@ -38,7 +34,7 @@
           class="card timeline-card"
           :style="{ 'left': (index % 2 === 0 ? 'auto' : '100px'), 'right': (index % 2 === 1 ? 'auto' : '100px') }"
         >
-          {{index}}
+          <p class="event-index">{{index + 1}}</p>
           <h3>At {{ getTime(event[0].timestamp) }}</h3>
           <div v-if="event[0].victimId == participantIdReturn">
             <h2>You Died</h2>
@@ -102,7 +98,7 @@
                   </v-img>
                 </template>
                 <span>
-                  <template>{{championAbilitiesReturn.spells[skillsMatch[events.skillSlot]]}}</template>
+                  <template>{{events.skillSlot}}</template>
                 </span>
               </v-tooltip>
             </div>
@@ -162,10 +158,10 @@ export default {
       dataTotalGold: null,
       dataAbilities: null,
       skillsMatch: {
-        '1': 'q',
-        '2': 'w',
-        '3': 'e',
-        '4': 'r'
+        '0': 'q',
+        '1': 'w',
+        '2': 'e',
+        '3': 'r'
       },
       eventMatch: {
         SKILL_LEVEL_UP: 'Levelled Up',
@@ -238,10 +234,10 @@ export default {
     /*eslint-disable */
 
     const ver = await axios.get(
-      'http://ddragon.leagueoflegends.com/api/versions.json'
+      'https://ddragon.leagueoflegends.com/api/versions.json'
     );
     const items = await axios.get(
-      `http://ddragon.leagueoflegends.com/cdn/${ver.data[0]}/data/en_US/item.json`
+      `https://ddragon.leagueoflegends.com/cdn/${ver.data[0]}/data/en_US/item.json`
     );
 
     const championDetailed = await axios.get(
@@ -256,7 +252,6 @@ export default {
     this.events = res.data.sortedEvents;
     this.data = res.data.resultCurrent;
     this.userStats = res.data;
-    console.log(championDetailed);
     this.dataTotalGold = res.data.resultTotal;
 
     this.participantId = res.data.results;
@@ -349,7 +344,6 @@ export default {
     stackedPurchasedItems() {
       var last = 0;
       var lastType;
-      console.log(this.events);
       var filterEvents = this.events.filter(function(el) {
         return (
           el.type == 'ITEM_PURCHASED' ||
@@ -384,6 +378,37 @@ export default {
 <style>
 .apexcharts-gridlines-horizontal line {
   display: none;
+}
+
+.data-contain {
+  width: 70%;
+               left: 15%;
+                overflow: auto;
+                height: 70vh;
+}
+
+
+@media screen and (max-width: 39.9375em) {
+  .data-contain {
+  width: 100%;
+                left: 0%;
+                overflow: auto;
+                height: 200vh;
+                position: relative !important;
+}
+.timeline-card {
+  padding: 5px;
+  width: 100% !important;
+  left: 0 !important;
+  right: 0 !important;
+
+
+}
+
+
+
+
+
 }
 
 svg {
@@ -424,6 +449,22 @@ svg:hover {
   box-shadow: none; */
 
   transition: 0.25s ease-in-out;
+  
+}
+
+.event-index {
+    background: rgb(0, 9, 19);
+    border:1px solid rgb(208, 168, 92);
+    position: absolute;
+    top: -1vw;
+    left: -1vw;
+    padding: -15px;
+    border-radius: 90px;
+    height: 2vw;
+    width: 2vw;
+    /* line-height: 500px; */
+    line-height: 2vw;
+    text-align: center;
 }
 .theme--light.v-divider {
   border-color: #ffd046 !important;

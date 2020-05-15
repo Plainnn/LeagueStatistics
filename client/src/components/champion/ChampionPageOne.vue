@@ -51,11 +51,11 @@ export default {
   },
   async created() {
     const ver = await axios.get(
-      'http://ddragon.leagueoflegends.com/api/versions.json'
+      'https://ddragon.leagueoflegends.com/api/versions.json'
     );
 
     const champion = await axios.get(
-      `http://ddragon.leagueoflegends.com/cdn/10.6.1/data/en_US/champion.json`
+      `https://ddragon.leagueoflegends.com/cdn/10.6.1/data/en_US/champion.json`
     );
 
     const key = this.$route.params.key1;

@@ -4,14 +4,14 @@
       <v-progress-circular :size="100" color="primary" indeterminate></v-progress-circular>
     </div>
 
-    <div v-if="this.data">
+    <div v-if="this.data" class="name-comp">
       <div
         class="rank text-center"
         v-if="this.summmonerTier"
         data-aos="fade-down"
         data-aos-delay="1000"
       >
-        <v-img
+        <img
           :src="
             require(`./img/${this.summmonerTier.toLowerCase()}_${this.summmonerRank.toLowerCase()}.png`)
           "
@@ -35,13 +35,13 @@
         <v-row class="row text-center" justify="center">
           <div class="sol-sm-6 sumWinPercent">
             <div class="iCountUp">
-              <ICountUp :delay="delay" :endVal="endVal" :options="options" @ready="onReady" />
+              <ICountUp :delay="delay" :endVal="endVal" :options="options" />
             </div>
             <h1 id="winPercent"></h1>
           </div>
         </v-row>
-        <v-row class="text-center my-12" justify="center">
-          <h1 class="text-center my-6">Win Rate</h1>
+        <v-row class="text-center" justify="center">
+          <h1 class="text-center mb-6">Win Rate</h1>
         </v-row>
       </div>
     </div>
@@ -57,10 +57,7 @@ export default {
     ICountUp
   },
   methods: {
-    onReady: function(instance) {
-      const that = this;
-      instance.update(that.endVal);
-    }
+
   },
   name: 'userName',
   data() {
@@ -162,7 +159,7 @@ export default {
 }
 
 .iCountUp {
-  font-size: 20em;
+  font-size: 20vw;
   font-weight: 400;
   color: #ffd046;
   margin: 0em 0em 0em 0em;
@@ -171,5 +168,9 @@ export default {
 
 .rank img {
   width: 20%;
+}
+
+.name-comp {
+      margin-bottom: 5em;
 }
 </style>

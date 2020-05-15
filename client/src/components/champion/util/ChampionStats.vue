@@ -15,7 +15,7 @@
     <v-row fluid class="text-center" justify="center">
       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
-          <v-col cols="3">
+          <v-col sm="12" lg="3">
             <div class="card text-center pa-12" dark v-on="on">
               <img
                 src="https://raw.communitydragon.org/latest/game/assets/perks/statmods/statmodshealthscalingicon.png"
@@ -32,7 +32,7 @@
         >
       </v-tooltip>
 
-      <v-col cols="3">
+      <v-col sm="12" lg="3">
         <div class="card card text-center pa-12">
           <img
             src="https://raw.communitydragon.org/latest/game/assets/perks/statmods/statmodshealthscalingicon.png"
@@ -40,7 +40,7 @@
           <h3>HP Per Level: {{ hpPerLevel }}</h3>
         </div>
       </v-col>
-      <v-col cols="3">
+      <v-col sm="12" lg="3">
         <div class="card card text-center pa-12">
           <img
             src="https://raw.communitydragon.org/latest/game/assets/perks/statmods/statmodsabilitypowericon.png"
@@ -48,7 +48,7 @@
           <h3>Mana : {{ mana }}</h3>
         </div>
       </v-col>
-      <v-col cols="3">
+      <v-col sm="12" lg="3">
         <div class="card card text-center pa-12">
           <img
             src="https://raw.communitydragon.org/latest/game/assets/perks/statmods/statmodsabilitypowericon.png"
@@ -56,7 +56,7 @@
           <h3>Mana Per Level : {{ manaPerLevel }}</h3>
         </div>
       </v-col>
-      <v-col cols="3">
+      <v-col sm="12" lg="3">
         <div class="card card text-center pa-12">
           <img
             src="https://raw.communitydragon.org/latest/game/assets/perks/statmods/statmodsmovementspeedicon.png"
@@ -64,7 +64,7 @@
           <h3>Base Movement Speed : {{ moveSpeed }}</h3>
         </div>
       </v-col>
-      <v-col cols="3">
+      <v-col sm="12" lg="3">
         <div class="card card text-center pa-12">
           <img
             src="https://raw.communitydragon.org/latest/game/assets/perks/statmods/statmodsarmoricon.png"
@@ -72,7 +72,7 @@
           <h3>Base Armor : {{ armor }}</h3>
         </div>
       </v-col>
-      <v-col cols="3">
+      <v-col sm="12" lg="3">
         <div class="card card text-center pa-12">
           <img
             src="https://raw.communitydragon.org/latest/game/assets/perks/statmods/statmodsarmoricon.png"
@@ -80,7 +80,7 @@
           <h3>Armor Per Level : {{ armorPerLevel }}</h3>
         </div>
       </v-col>
-      <v-col cols="3">
+      <v-col sm="12" lg="3">
         <div class="card card text-center pa-12">
           <img
             src="https://raw.communitydragon.org/latest/game/assets/perks/statmods/statmodsmagicresicon.png"
@@ -88,7 +88,7 @@
           <h3>Base Magic Resist : {{ magicResist }}</h3>
         </div>
       </v-col>
-      <v-col cols="3">
+      <v-col sm="12" lg="3">
         <div class="card card text-center pa-12">
           <img
             src="https://raw.communitydragon.org/pbe/plugins/rcp-be-lol-game-data/global/default/v1/perk-images/statmods/statmodsmagicresicon.png"
@@ -96,7 +96,7 @@
           <h3>Magic Resist Per Level : {{ magicResistPerLevel }}</h3>
         </div>
       </v-col>
-      <v-col cols="3">
+      <v-col sm="12" lg="3">
         <div class="card card text-center pa-12">
           <img
             src="https://raw.communitydragon.org/latest/game/assets/perks/statmods/statmodsattackdamageicon.png"

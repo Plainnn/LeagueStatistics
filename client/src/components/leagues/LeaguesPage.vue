@@ -48,19 +48,17 @@
         <template v-slot:default="props">
           <v-row>
             <v-col
-              v-for="(item, index) in props.items"
+              v-for="item in props.items"
               :key="item.summonerId"
               cols="12"
-              sm="6"
-              md="4"
+              sm="12"
+              md="12"
               lg="12"
             >
               <v-card class="card">
                 <v-card-title class>
                   <div class="d-flex align-center pt-4">
-                    <div class="mx-6 subheading font-weight-bold">
-                      <p>{{ index + 1 }}</p>
-                    </div>
+                
                     <div class="mx-6">
                       <p>{{ item.summonerName }}</p>
                     </div>
@@ -104,7 +102,6 @@
                   </div>
                 </v-card-title>
 
-                <v-divider></v-divider>
               </v-card>
             </v-col>
           </v-row>
@@ -131,10 +128,9 @@
               </v-list>
             </v-menu>
 
-            <v-spacer></v-spacer>
 
             <span class="mr-4 grey--text">Page {{ page }} of {{ numberOfPages }}</span>
-            <v-btn fab dark color="blue darken-3" class="mr-1" @click="formerPage">
+            <v-btn fab dark color="primary darken-3" class="mr-1" @click="formerPage">
               <v-icon>mdi-chevron-left</v-icon>
             </v-btn>
             <v-btn fab dark color="blue darken-3" class="ml-1" @click="nextPage">
@@ -216,6 +212,16 @@ span.v-btn__content {
   color: #fff !important;
 }
 
+.theme--light.v-card {
+      background: #0d0920;
+    margin: 1em auto;
+    border-radius: 10px;
+    -webkit-box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+    box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+    position: relative;
+    color: #fff;
+}
+
 #region-dropdown,
 .league-dropdown,
 .rank-dropdown {
@@ -239,5 +245,15 @@ span.v-btn__content {
 
 .league-btn {
   flex: 5%;
+}
+
+@media screen and (max-width: 39.9375em) {
+
+}
+
+.v-application .d-flex {
+
+    flex-direction: column;
+    text-align: center;
 }
 </style>

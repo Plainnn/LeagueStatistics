@@ -1,5 +1,5 @@
-import Vue from 'vue';
-import createAuth0Client from '@auth0/auth0-spa-js';
+import Vue from "vue";
+import createAuth0Client from "@auth0/auth0-spa-js";
 
 /** Define a default action to perform after authentication */
 const DEFAULT_REDIRECT_CALLBACK = () =>
@@ -86,8 +86,8 @@ export const useAuth0 = ({
     async created() {
       // Create a new instance of the SDK client using members of the given options object
       this.auth0Client = await createAuth0Client({
-        domain: 'lol-stat.eu.auth0.com',
-        client_id: '2ymZyMoDjB8G95O82zUE63018YLYx1yd',
+        domain: options.domain,
+        client_id: options.clientId,
         audience: options.audience,
         redirect_uri: redirectUri
       });
@@ -95,8 +95,8 @@ export const useAuth0 = ({
       try {
         // If the user is returning to the app after authentication..
         if (
-          window.location.search.includes('code=') &&
-          window.location.search.includes('state=')
+          window.location.search.includes("code=") &&
+          window.location.search.includes("state=")
         ) {
           // handle the redirect and retrieve tokens
           const { appState } = await this.auth0Client.handleRedirectCallback();

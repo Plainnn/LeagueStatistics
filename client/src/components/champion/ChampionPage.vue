@@ -5,7 +5,7 @@
         <v-row class="mt-6">
           <v-col cols="8"></v-col>
           <v-col cols="4">
-            <v-btn class="text-right" justify="right" color="green" dark v-on="on">
+            <v-btn class="text-right d-none d-md-flex" justify="right" color="green" dark v-on="on">
               <v-icon class="mr-2">mdi-file-compare</v-icon>
               Compare {{ data.name }} With Another Champion
             </v-btn>
@@ -76,11 +76,11 @@ export default {
   },
   async created() {
     const ver = await axios.get(
-      'http://ddragon.leagueoflegends.com/api/versions.json'
+      'https://ddragon.leagueoflegends.com/api/versions.json'
     );
 
     const champion = await axios.get(
-      `http://ddragon.leagueoflegends.com/cdn/10.6.1/data/en_US/champion.json`
+      `https://ddragon.leagueoflegends.com/cdn/10.6.1/data/en_US/champion.json`
     );
 
     const key = this.$route.params.key;
@@ -104,7 +104,7 @@ export default {
 }
 
 .championPage {
-  padding: 50px;
+  padding: 0px;
 }
 
 .infoChamp {

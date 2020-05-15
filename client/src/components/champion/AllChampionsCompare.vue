@@ -42,10 +42,9 @@ export default {
   },
   async mounted() {
     const res = await axios(
-      'http://ddragon.leagueoflegends.com/cdn/10.8.1/data/en_US/champion.json'
+      'https://ddragon.leagueoflegends.com/cdn/10.8.1/data/en_US/champion.json'
     );
     this.data = res.data.data;
-    console.log(res.data);
   },
   methods: {
     championImage(key) {

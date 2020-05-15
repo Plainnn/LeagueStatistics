@@ -1,12 +1,12 @@
-<template>
-  <v-col cols="3" xs="12" lg="3" sm="12">
-    <div v-if="this.data" class="card pa-4">
+c<template>
+  <v-col sm="12" lg="3">
+    <div v-if="this.data" class="card pa-2">
       <div class="champImg text-center pt-6">
         <img :src="championImage" class="championImage" @click="sendUrl(getId)" />
       </div>
-      <div class="championStat text-center pt-3">
+      <div class="championStat text-center ">
         <h1>{{ this.data.championName }}</h1>
-        <p>Win Rate: {{ championWinRate }}</p>
+        <h3>Win Rate: {{ championWinRate }}</h3>
         <p>
           <span class="green-color">W{{ championWins }}</span>
           <span class="red-color ml-2">L{{ championLosses }}</span>

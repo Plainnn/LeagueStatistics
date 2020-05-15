@@ -11,8 +11,22 @@ const mongoose = require('mongoose');
 const jwt = require('express-jwt');
 const jwksRsa = require('jwks-rsa');
 var bodyParser = require('body-parser');
+const path = require('path');
+var history = require('connect-history-api-fallback');
+var fs = require('fs'),
+    http = require('http'),
+    https = require('https');
 
 const app = express();
+app.use(history());
+
+var privateKey = fs.readFileSync( 'server.key' ).toString();
+var certificate = fs.readFileSync( 'server.cert' ).toString();
+
+https.createServer({
+    key: privateKey,
+    cert: certificate
+}, app).listen(5000);
 
 //Get database URL and pass password into the URl
 const DB = process.env.DATABASE.replace(
@@ -65,19 +79,24 @@ app.use('/api/v1/', summonerRouter);
 app.use('/api/v1/users', usersRouter);
 app.use('/api/v1/', leaguesRouter);
 
-// Handle production
-if (process.env.NODE_ENV === 'production') {
   // Static folder
-  app.use(express.static(__dirname + '/public/'));
+  app.use(express.static(__dirname + './../client/dist'));
 
   // Handle SPA
-  app.get(/.*/, (req, res) => res.sendFile(__dirname + '/public/index.html'));
-}
+  app.get('/', (req, res) => res.sendFile(__dirname + './../client/dist/index.html'));
+
+  app.get('/', function (req, res) {
+    res.render(path.join(__dirname + './../client/dist/index.html'));
+  });
+  
 
 app.listen(process.env.PORT || 3000, function () {
-  console.log('Server listening on port 3000');
+  console.log(`Server listening on port${process.env.PORT}`);
 });
 
+
+
+console.log(process.env.API_KEY);
 console.log(process.env.API_KEY);
 
 module.exports = app;

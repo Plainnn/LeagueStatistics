@@ -2,7 +2,7 @@
   <section class="search pa-12">
     <h1>Check Your Statistics</h1>
     <form v-on:submit.prevent="onSubmit">
-      <select name id="region" v-model="region" class="dropdown-region px-4 ml-12">
+      <select name id="region" v-model="region" class="dropdown-region px-4 ">
         <option selected style="color: white">Region</option>
         <option value="euw">EUW</option>
         <option value="na">NA</option>
@@ -59,6 +59,21 @@ export default {
   color: #fff;
 }
 
+@media screen and (max-width: 39.9375em) {
+  .search {
+    width: 90%;
+  }
+
+  .search .sumName {
+    width: 100%;
+  }
+
+  .dropdown-region {
+    margin-left: 0 !important;
+  }
+}
+
+
 .search .sumName {
   width: 75%;
   margin: 0 auto;
@@ -67,6 +82,7 @@ export default {
 .dropdown-region {
   border-radius: 13px;
   height: 3em;
+  margin-left: 48px;
 }
 
 .search .sumName,

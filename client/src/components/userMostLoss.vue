@@ -10,7 +10,7 @@
     </div>
     <div class="userMostLoss mb-12" v-if="data">
       <div class="row">
-        <div class="col-sm-9 sum-name" data-aos="fade-right" data-aos-delay="200">
+        <div class="col-lg-9 col-sm-12 sum-name" data-aos="fade-right" data-aos-delay="200">
           <div class="align">
             <h1>{{ data.data.mostLosses.champ }}</h1>
           </div>
@@ -25,7 +25,7 @@
           </h5>
         </div>
 
-        <div class="col-sm-3 sum-rank" data-aos="fade-right" data-aos-delay="200">
+        <div class="col-lg-3 col-sm-12 sum-rank" data-aos="fade-right" data-aos-delay="200">
           <div class="imgchamp">
             <img
               :src="
@@ -105,6 +105,12 @@ hr.alt {
   object-fit: contain;
   height: 500px;
   display: block;
+}
+
+@media screen and (max-width: 39.9375em) {
+  .imgchamp img {
+    margin-top: 0;
+  }
 }
 
 .userMostLossontainer {

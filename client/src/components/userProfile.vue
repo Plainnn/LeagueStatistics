@@ -29,17 +29,16 @@
 </template>
 
 <script>
-const axios = require('axios');
-import { getInstance } from '../auth/';
+const axios = require("axios");
 
-import UserMatchTimeline from '../components/UserMatchTimeline';
-import userMostWins from '../components/userMostWins';
-import UserCreepScore from '../components/UserCreepScore';
-import userMostLoss from '../components/userMostLoss';
-import userName from '../components/userName';
-import PlayedChampions from '../components/PlayedChampions';
-import UserMastery from '../components/UserMastery';
-import ErrorHandle from '../components/util/ErrorHandle';
+import UserMatchTimeline from "../components/UserMatchTimeline";
+import userMostWins from "../components/userMostWins";
+import UserCreepScore from "../components/UserCreepScore";
+import userMostLoss from "../components/userMostLoss";
+import userName from "../components/userName";
+import PlayedChampions from "../components/PlayedChampions";
+import UserMastery from "../components/UserMastery";
+import ErrorHandle from "../components/util/ErrorHandle";
 
 export default {
   components: {
@@ -52,7 +51,7 @@ export default {
     UserCreepScore,
     UserMatchTimeline
   },
-  name: 'userProfile',
+  name: "userProfile",
   data() {
     return {
       loading: false,
@@ -63,25 +62,11 @@ export default {
   beforeCreate() {},
   async created() {
     /*eslint-disable */
-    const instance = getInstance();
-    var token;
-
-    instance.$watch('loading', async loading => {
-      if (!loading && instance.isAuthenticated) {
-        token = await instance.getTokenSilently();
-        console.log(token);
-      }
-    });
 
     try {
       this.loading = true;
       const res = await axios.get(
-        `/api/v1/${this.$route.params.platform}/${this.$route.params.name}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}` // send the access token through the 'Authorization' header
-          }
-        }
+        `/api/v1/${this.$route.params.platform}/${this.$route.params.name}`
       );
       this.data = res;
       console.log(res.data);
