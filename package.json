@@ -28,7 +28,7 @@
     "leagueapiwrapper": "^1.1.0",
     "mocha": "^6.2.2",
     "mongoose": "^5.8.9",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.1",
     "node-simple-timer": "^0.1.1",
     "supertest": "^4.0.2"
   }
